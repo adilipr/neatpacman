@@ -1,0 +1,80 @@
+----------------------------------------
+Train:
+----------------------------------------
+
+        ./evolve.sh navi.properties
+	
+
+	* result will go in: 
+
+		db/ ...
+
+	  and output will be dumped on your screen.
+
+	* You can find the chromosomes specifying
+	  network topology in
+	
+                	db/chromosome/13178.xml
+
+	* You can also try the simpler xor task
+
+	./evolve.sh xor.properties
+
+----------------------------------------
+Test:
+----------------------------------------
+
+        ./navi_evaluate.sh navi.properties 13178
+		
+		* use the chromosome number for best individual
+
+	* for xor,
+
+	./evaluate.sh xor.properties 6178
+
+----------------------------------------
+configuration files
+----------------------------------------
+
+        properties/...
+                navi.properties
+                xor.properties
+
+----------------------------------------
+soruce files are in
+----------------------------------------
+
+	src/com/anji/navi/ .....
+
+	
+	* To build a file after modifying, do, e.g.,
+
+		./build.sh src/com/anji/navi/NaviFitnessFunction.java
+
+----------------------------------------
+configuration file fields
+----------------------------------------
+
+
+num.generations=100	<- max # generations to train
+popul.size=150		<- population size
+
+stimulus.size=3 	<- this is the input layer neuron count.
+response.size=1		<- this is the output layer neuron count.
+
+fitness_function.class=com.anji.neat.NeatTargetFitnessFunction
+			<- this is the class that implements the task 
+			   environment.
+
+persistence.base.dir=./db	<- change this to store results in a separate
+				   subdirectory across different experiments.
+
+id.file=./db/id.xml		<- change according to the above
+neat.id.file=./db/neatid.xml	<- same here
+
+
+* you can also define custom parameters.
+
+
+Thu Oct 28 12:50:24 CDT 2010
+Yoonsuck Choe
