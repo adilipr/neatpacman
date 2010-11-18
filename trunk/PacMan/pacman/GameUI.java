@@ -1,3 +1,4 @@
+package pacman;
 import java.awt.*;
 import java.util.*;
 

@@ -1,3 +1,4 @@
+package pacman;
 import java.awt.*;
 import java.util.*;
 // Top Right Canvas which is repainted many times because// it contains the Score string.
