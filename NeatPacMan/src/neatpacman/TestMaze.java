@@ -35,20 +35,6 @@ public class TestMaze implements Maze
   }
 
   @Override
-  public void movePacMan(int direction)
-  {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public void moveGhost(int id, int direction)
-  {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
   public boolean isGameOver()
   {
     // TODO Auto-generated method stub
@@ -67,6 +53,27 @@ public class TestMaze implements Maze
   {
     // TODO Auto-generated method stub
     return 0;
+  }
+
+  @Override
+  public void tick()
+  {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void setPacManDirection(int direction)
+  {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void setGhostDirection(int id, int direction)
+  {
+    // TODO Auto-generated method stub
+    
   }
 
 }
