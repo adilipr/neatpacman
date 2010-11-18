@@ -1,3 +1,4 @@
+package pacman;
 import java.awt.*;
 
 // Pacman and Ghosts

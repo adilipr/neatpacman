@@ -1,3 +1,4 @@
+package pacman;
 import java.awt.*;
 
 // GameState is primarly maintained by the int[][] m_gameState

@@ -1,7 +1,8 @@
+package pacman;
 import java.awt.*;
 
 
-class Ghost extends Thing
+public class Ghost extends Thing
 {
    int[]    m_ghostMouthX;    // X points of Ghost's crooked mouth when Pacman powersup
    int[]    m_ghostMouthY;    // Y points of Ghost's crooked mouth when Pacman powersup

@@ -1,3 +1,4 @@
+package pacman;
 import java.applet.*;
 import java.net.URL;
 
