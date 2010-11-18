@@ -16,11 +16,14 @@ public interface Maze
   GameState getPacManState();
 
   GameState getGhostState(int id);
+  
+  // tick all
+  void tick();
 
   // move (and thus change game state)
-  void movePacMan(int direction);
+  void setPacManDirection(int direction);
 
-  void moveGhost(int id, int direction);
+  void setGhostDirection(int id, int direction);
 
   boolean isGameOver();
 
