@@ -39,7 +39,7 @@ private Game game;
  * 
  * @author Philip Tucker
  */
-protected class PlayerPair {
+protected static class PlayerPair {
 
 /**
  * main contestant
@@ -50,6 +50,11 @@ public PlayerResults contestant;
  * opponent
  */
 public PlayerResults opponent;
+
+public PlayerPair()
+{
+  // TODO Auto-generated constructor stub
+}
 
 /**
  * @see java.lang.Object#toString()
