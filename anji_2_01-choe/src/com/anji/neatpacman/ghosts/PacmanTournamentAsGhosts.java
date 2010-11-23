@@ -11,6 +11,7 @@ public class PacmanTournamentAsGhosts extends SimpleTournament
 {
 
   private int i;
+
   private int numOpponents;
 
   @Override
