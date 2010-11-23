@@ -9,21 +9,21 @@ import com.anji.tournament.SimpleTournament;
 
 public class PacmanTournamentAsPlayer extends SimpleTournament
 {
-  
+
   private int i;
-  
+
   private int numOpponents;
-  
+
   @Override
   public int getMaxScore()
   {
-    return getGame().getMaxScore(null) * numOpponents; 
+    return getGame().getMaxScore(null) * numOpponents;
   }
 
   @Override
   public int getMinScore()
   {
-    return getGame().getMinScore(null) * numOpponents; 
+    return getGame().getMinScore(null) * numOpponents;
   }
 
   @Override

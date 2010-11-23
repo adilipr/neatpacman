@@ -13,6 +13,8 @@ public interface Maze
   public static final int MIN_POSSIBLE_SCORE_FOR_GHOSTS = -MAX_POSSIBLE_SCORE_FOR_PLAYER;
 
   // defs of directions
+  static final int        ERROR                         = 0;
+
   static final int        UP                            = 1;
 
   static final int        DOWN                          = 2;
