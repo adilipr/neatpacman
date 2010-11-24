@@ -15,7 +15,7 @@ public class PlayGround
 
   public static int         numOfThreads = 3;
 
-  public static int         numOfGhosts  = 4;
+  public static int         numOfGhosts  = 1;
 
   private static PlayGround the          = null;
 
@@ -154,7 +154,8 @@ public class PlayGround
 
   private void playTheGame(PlayerResults player, PlayerResults ghosts)
   {
-    Maze maze = new DummyMaze(numOfGhosts);
+    Maze maze = new DummyMaze();
+    
     while (!maze.isGameOver())
     {
       GameState playerState = maze.getPacManState();
