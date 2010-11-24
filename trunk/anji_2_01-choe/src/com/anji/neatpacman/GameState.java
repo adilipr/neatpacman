@@ -13,7 +13,10 @@ import java.util.List;
  */
 public class GameState
 {
-
+  
+  // total number of inputs: 21 + 4G + 2J + 2P
+  // G = # ghosts, J = # junctions, P = # power pills
+  
   // distances to pacman / ghosts / junctions / pills
   public double   distPacMan;
 
@@ -41,7 +44,7 @@ public class GameState
 
   public double[] yGhosts;
 
-  // distances to nearest wall / junction / dot / pill
+  // distances to nearest wall / junction / dot / pill, in 4 directions
   public double[] distsNearestWall;
 
   public double[] distsNearestJunction;
@@ -50,9 +53,9 @@ public class GameState
 
   public double[] distsPowerPill;
 
-  // is pacman in power pill state?
-  public double   isPacManInPower;
-
+  // is a ghost affected by power pill? yes - 1.0, no - 0.0
+  public double[] isGhostAffected;
+  
   /**
    * no cache / lazy evaluation, since this object may be re-used to reduce memory consumption.
    * 
@@ -100,7 +103,7 @@ public class GameState
     vs.addAll(asList(distsNearestJunction));
     vs.addAll(asList(distsNearestDot));
     vs.addAll(asList(distsPowerPill));
-    vs.add(isPacManInPower);
+    vs.addAll(asList(isGhostAffected));
     return vs;
   }
 
