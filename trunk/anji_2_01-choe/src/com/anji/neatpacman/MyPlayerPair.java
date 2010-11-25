@@ -5,8 +5,8 @@ import com.anji.tournament.PlayerResults;
 public class MyPlayerPair
 {
 
-  public PlayerResults contestant;
+  public PlayerResults player;
   
-  public PlayerResults opponent;
+  public PlayerResults ghosts;
   
 }

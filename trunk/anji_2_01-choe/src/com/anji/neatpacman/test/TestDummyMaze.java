@@ -11,7 +11,7 @@ public class TestDummyMaze
   @Test
   public void testNoAction()
   {
-    Debug.setEnable(true);
+    Debug.setEnable(DummyMaze.class, true);
     
     DummyMaze dm = new DummyMaze();
     while (!dm.isGameOver())

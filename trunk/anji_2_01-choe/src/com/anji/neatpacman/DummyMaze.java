@@ -17,44 +17,48 @@ package com.anji.neatpacman;
 public class DummyMaze extends Debug implements Maze
 {
 
-  private static int DOT                 = 1;
+  private static final int MAX_TICK            = 1000;
 
-  private static int POWERPILL           = 2;
+  private static int       DOT                 = 1;
 
-  private int[][]    map                 = {
-                                         { 0, DOT, DOT, DOT, DOT },
-                                         { DOT, DOT, DOT, DOT, DOT },
-                                         { DOT, DOT, 0, DOT, DOT },
-                                         { DOT, DOT, DOT, DOT, DOT },
-                                         { DOT, DOT, DOT, DOT, POWERPILL },
-                                         };
+  private static int       POWERPILL           = 2;
 
-  private double     pacmanX             = 0;
+  private int[][]          map                 = {
+                                               { 0, DOT, DOT, DOT, DOT },
+                                               { DOT, DOT, DOT, DOT, DOT },
+                                               { DOT, DOT, 0, DOT, DOT },
+                                               { DOT, DOT, DOT, DOT, DOT },
+                                               { DOT, DOT, DOT, DOT, POWERPILL },
+                                               };
 
-  private double     pacmanY             = 0;
+  private double           pacmanX             = 0;
 
-  private int        pacmanDirection     = Maze.RIGHT;
+  private double           pacmanY             = 0;
 
-  private double     ghostX              = 2;
+  private int              pacmanDirection     = Maze.RIGHT;
 
-  private double     ghostY              = 2;
+  private double           ghostX              = 2;
 
-  private int        ghostDirection      = Maze.UP;
+  private double           ghostY              = 2;
 
-  private boolean    powerPillStillThere = true;
+  private int              ghostDirection      = Maze.UP;
 
-  private boolean    ghostAffected       = false;
+  private boolean          powerPillStillThere = true;
 
-  private int        powerCountDown;
+  private boolean          ghostAffected       = false;
+
+  private int              powerCountDown;
 
   // highest score for pacman: 10 * 22 + 50 * 1 + 200 * 1 = 470
-  private int        score               = 0;
+  private int              score               = 0;
 
-  private GameState  pacmanState         = new GameState();
+  private GameState        pacmanState         = new GameState();
 
-  private GameState  ghostState          = new GameState();
+  private GameState        ghostState          = new GameState();
 
-  private boolean    gameOver            = false;
+  private boolean          gameOver            = false;
+
+  private int              tickCount           = 0;
 
   public DummyMaze()
   {
@@ -180,6 +184,13 @@ public class DummyMaze extends Debug implements Maze
   @Override
   public void tick()
   {
+    if (tickCount >= MAX_TICK)
+    {
+      gameOver = true;
+      return;
+    }
+    tickCount++;
+
     // power state
     if (powerCountDown == 0)
       ghostAffected = false;
