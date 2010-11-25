@@ -22,7 +22,7 @@ public class Utils
   
   public static int outputsToDirection(double[] outputs)
   {
-    if (outputs.length < 0 || outputs.length >= directions.length)
+    if (outputs.length != directions.length)
     {
       System.err.println("error in converting outputs to direction!");
       return Maze.ERROR;

@@ -1,7 +1,6 @@
 package com.anji.neatpacman.ghosts;
 
 import com.anji.neatpacman.Maze;
-import com.anji.neatpacman.PlayGround;
 import com.anji.tournament.Game;
 import com.anji.tournament.GameResults;
 import com.anji.tournament.PlayerResults;
@@ -13,7 +12,6 @@ public class PacmanGameAsGhosts implements Game
   @Override
   public GameResults play(PlayerResults contestantResults, PlayerResults opponentResults)
   {
-    PlayGround.get().play(opponentResults, contestantResults);
     return null; // for simple tournament we don't need to return anything.
   }
 

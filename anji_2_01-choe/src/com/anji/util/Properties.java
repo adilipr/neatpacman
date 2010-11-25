@@ -103,6 +103,8 @@ public void loadFromResource( String resource ) throws IOException {
  */
 public void loadFromResourceWithoutLogging( String resource ) throws IOException {
 	InputStream in = ClassLoader.getSystemResourceAsStream( resource );
+	if (in == null)
+	  in = new FileInputStream(resource);
 	load( in );
 	setName( resource );
 }

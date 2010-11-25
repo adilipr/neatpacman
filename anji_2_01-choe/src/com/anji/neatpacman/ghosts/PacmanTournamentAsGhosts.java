@@ -2,7 +2,6 @@ package com.anji.neatpacman.ghosts;
 
 import java.util.List;
 
-import com.anji.neatpacman.MyPlayerPair;
 import com.anji.neatpacman.PlayGround;
 import com.anji.tournament.PlayerResults;
 import com.anji.tournament.SimpleTournament;
@@ -10,9 +9,9 @@ import com.anji.tournament.SimpleTournament;
 public class PacmanTournamentAsGhosts extends SimpleTournament
 {
 
-  private int i;
+  private int        numOpponents;
 
-  private int numOpponents;
+  private PlayGround playGround;
 
   @Override
   public int getMaxScore()
@@ -30,32 +29,28 @@ public class PacmanTournamentAsGhosts extends SimpleTournament
   protected void startTournament()
   {
     List<PlayerResults> playerResults = getResults();
-    PlayGround.get().registerGhosts(playerResults);
-    i = 0;
+    playGround = PlayGround.get();
+    playGround.registerGhosts(playerResults);
   }
 
   @Override
   protected void endTournament()
   {
-    numOpponents = PlayGround.get().getPlayers().size();
-    PlayGround.get().waitForFinish();
+    numOpponents = playGround.getPlayers().size();
+    playGround.waitForDone();
   }
 
   @Override
   protected PlayerPair nextPlayerPair()
   {
-    MyPlayerPair mpp = PlayGround.get().getPlayerPairs().get(i);
-    PlayerPair pp = new PlayerPair();
-    pp.contestant = mpp.opponent;
-    pp.opponent = mpp.contestant;
-    i++;
-    return pp;
+    // should not be called
+    return null;
   }
 
   @Override
   protected boolean hasNextPlayerPair()
   {
-    return PlayGround.get().getPlayerPairs().size() > i;
+    return false;
   }
 
 }

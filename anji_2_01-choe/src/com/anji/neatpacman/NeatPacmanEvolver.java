@@ -16,7 +16,7 @@ public class NeatPacmanEvolver
 
   private Object  pendWorkDone = new Object();
 
-  public void init(Properties playerProps, Properties ghostsProps) throws Exception
+  public NeatPacmanEvolver(Properties playerProps, Properties ghostsProps) throws Exception
   {
     playerEvolver = new Evolver();
     playerEvolver.init(playerProps);
@@ -24,24 +24,27 @@ public class NeatPacmanEvolver
     ghostEvolver.init(ghostsProps);
   }
 
-  public void evolve() throws InterruptedException
+  public void evolve()
   {
     Thread t1 = new Thread(new Runnable()
     {
       @Override
       public void run()
       {
-        try
-        {
-          playerEvolver.run();
+          try
+          {
+            playerEvolver.run();
+          }
+          catch (Exception e)
+          {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
           playerDone = true;
-          pendWorkDone.notifyAll();
-        }
-        catch (Exception e)
-        {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
+          synchronized (pendWorkDone)
+          {
+            pendWorkDone.notify();
+          }
       }
     });
     Thread t2 = new Thread(new Runnable()
@@ -49,17 +52,20 @@ public class NeatPacmanEvolver
       @Override
       public void run()
       {
-        try
-        {
-          ghostEvolver.run();
+          try
+          {
+            ghostEvolver.run();
+          }
+          catch (Exception e)
+          {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
           ghostDone = true;
-          pendWorkDone.notifyAll();
-        }
-        catch (Exception e)
-        {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
+          synchronized (pendWorkDone)
+          {
+            pendWorkDone.notifyAll();
+          }
       }
     });
 
@@ -68,8 +74,39 @@ public class NeatPacmanEvolver
 
     while (!playerDone || !ghostDone)
     {
-      pendWorkDone.wait();
+      synchronized (pendWorkDone)
+      {
+        try
+        {
+          pendWorkDone.wait();
+        }
+        catch (InterruptedException e)
+        {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+      }
     }
+  }
+  
+  public static void main(String[] args) throws Exception
+  {
+    Debug.setEnable(PlayGround.class, true);
+    
+    if (args.length != 2)
+    {
+      System.err.println("args: <pacman-properties-file-path> <ghost-properties-file-path>");
+      System.exit(-1);
+    }
+    
+    String pacmanPropsFp = args[0];
+    String ghostPropsFp = args[1];
+    
+    Properties pacmanProps = new Properties(pacmanPropsFp);
+    Properties ghostProps = new Properties(ghostPropsFp);
+    
+    NeatPacmanEvolver npe = new NeatPacmanEvolver(pacmanProps, ghostProps);
+    npe.evolve();
   }
 
 }
