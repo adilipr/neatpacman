@@ -5,6 +5,11 @@ import com.anji.util.Properties;
 
 public class NeatPacmanEvolver
 {
+  
+  static
+  {
+//    Debug.setEnable(DummyMaze.class, true);
+  }
 
   private Evolver playerEvolver;
 
@@ -91,7 +96,7 @@ public class NeatPacmanEvolver
   
   public static void main(String[] args) throws Exception
   {
-    Debug.setEnable(PlayGround.class, true);
+//    Debug.setEnable(PlayGround.class, true);
     
     if (args.length != 2)
     {
