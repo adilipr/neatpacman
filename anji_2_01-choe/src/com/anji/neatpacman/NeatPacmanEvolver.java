@@ -98,17 +98,21 @@ public class NeatPacmanEvolver
   {
 //    Debug.setEnable(PlayGround.class, true);
     
-    if (args.length != 2)
+    if (args.length != 3)
     {
-      System.err.println("args: <pacman-properties-file-path> <ghost-properties-file-path>");
+      System.err.println("args: <config-properties-file-path> <pacman-properties-file-path> <ghost-properties-file-path>");
       System.exit(-1);
     }
     
-    String pacmanPropsFp = args[0];
-    String ghostPropsFp = args[1];
+    String configPropsFp = args[0];
+    String pacmanPropsFp = args[1];
+    String ghostPropsFp = args[2];
     
+    Properties config = new Properties(configPropsFp);
     Properties pacmanProps = new Properties(pacmanPropsFp);
     Properties ghostProps = new Properties(ghostPropsFp);
+    
+    Config.init(config);
     
     NeatPacmanEvolver npe = new NeatPacmanEvolver(pacmanProps, ghostProps);
     npe.evolve();
