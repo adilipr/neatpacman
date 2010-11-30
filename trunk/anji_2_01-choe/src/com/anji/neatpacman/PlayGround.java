@@ -16,10 +16,6 @@ import com.anji.tournament.PlayerResults;
 public class PlayGround extends Debug implements Runnable
 {
 
-  public static int         numOfThreads = 1;
-
-  public static int         numOfGhosts  = 1;
-
   private static PlayGround the          = null;
 
   public static PlayGround get()
@@ -29,7 +25,7 @@ public class PlayGround extends Debug implements Runnable
       synchronized (PlayGround.class)
       {
         if (the == null)
-          the = new PlayGround(numOfThreads);
+          the = new PlayGround(Config.get().getNumOfThreads());
       }
     }
     return the;
@@ -112,8 +108,8 @@ public class PlayGround extends Debug implements Runnable
     while (!maze.isGameOver())
     {
       GameState playerState = maze.getPacManState();
-      GameState[] ghostsStates = new GameState[numOfGhosts];
-      for (int i = 0; i < numOfGhosts; ++i)
+      GameState[] ghostsStates = new GameState[Config.get().getNumOfGhosts()];
+      for (int i = 0; i < Config.get().getNumOfGhosts(); ++i)
         ghostsStates[i] = maze.getGhostState(i);
 
       // feed input to NN, and get responses
@@ -124,7 +120,7 @@ public class PlayGround extends Debug implements Runnable
 
       maze.setPacManDirection(playerMove);
       debug("pacman moving direction: " + playerMove);
-      for (int i = 0; i < numOfGhosts; ++i)
+      for (int i = 0; i < Config.get().getNumOfGhosts(); ++i)
       {
         maze.setGhostDirection(i, ghostsMove[i]);
         debug("ghost[" + i + "] moving direction: " + ghostsMove[i]);

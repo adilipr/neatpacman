@@ -3,15 +3,6 @@ package com.anji.neatpacman;
 public interface Maze
 {
 
-  // TODO
-  public static final int MAX_POSSIBLE_SCORE_FOR_PLAYER = 470;
-
-  public static final int MIN_POSSIBLE_SCORE_FOR_PLAYER = 0;
-
-  public static final int MAX_POSSIBLE_SCORE_FOR_GHOSTS = -MIN_POSSIBLE_SCORE_FOR_PLAYER;
-
-  public static final int MIN_POSSIBLE_SCORE_FOR_GHOSTS = -MAX_POSSIBLE_SCORE_FOR_PLAYER;
-
   // defs of directions
   static final int        ERROR                         = 0;
 

@@ -1,5 +1,6 @@
 package com.anji.neatpacman.player;
 
+import com.anji.neatpacman.Config;
 import com.anji.neatpacman.Maze;
 import com.anji.tournament.Game;
 import com.anji.tournament.GameResults;
@@ -24,13 +25,13 @@ public class PacmanGameAsPlayer implements Game
   @Override
   public int getMaxScore(ScoringWeights weights)
   {
-    return Maze.MAX_POSSIBLE_SCORE_FOR_PLAYER;
+    return Config.get().getPlayerMaxScore();
   }
 
   @Override
   public int getMinScore(ScoringWeights weights)
   {
-    return Maze.MIN_POSSIBLE_SCORE_FOR_PLAYER;
+    return Config.get().getPlayerMinScore();
   }
 
 }

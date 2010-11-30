@@ -17,10 +17,6 @@ package com.anji.neatpacman;
 public class DummyMaze extends Debug implements Maze
 {
 
-  private static final int INF_DISTANCE        = 10;
-
-  private static final int MAX_TICK            = 200;
-
   private static int       DOT                 = 1;
 
   private static int       POWERPILL           = 2;
@@ -98,7 +94,7 @@ public class DummyMaze extends Debug implements Maze
   {
     double newDistGhost = Math.abs(pacmanX - ghostX) + Math.abs(pacmanY - ghostY);
     double newDistPowerPill = powerPillStillThere ? Math.abs(pacmanX - 4) + Math.abs(pacmanY - 4)
-        : INF_DISTANCE;
+        : Config.get().getInfDistance();
 
     pacmanState.deltaDistPacMan = 0;
     pacmanState.deltaDistGhosts[0] = newDistGhost - pacmanState.distGhosts[0];
@@ -118,10 +114,10 @@ public class DummyMaze extends Debug implements Maze
     pacmanState.distsNearestDot[2] = distNearest(pacmanX, pacmanY, Maze.LEFT, 1);
     pacmanState.distsNearestDot[3] = distNearest(pacmanX, pacmanY, Maze.RIGHT, 1);
 
-    pacmanState.distsNearestJunction[0] = INF_DISTANCE;
-    pacmanState.distsNearestJunction[1] = INF_DISTANCE;
-    pacmanState.distsNearestJunction[2] = INF_DISTANCE;
-    pacmanState.distsNearestJunction[3] = INF_DISTANCE;
+    pacmanState.distsNearestJunction[0] = Config.get().getInfDistance();
+    pacmanState.distsNearestJunction[1] = Config.get().getInfDistance();
+    pacmanState.distsNearestJunction[2] = Config.get().getInfDistance();
+    pacmanState.distsNearestJunction[3] = Config.get().getInfDistance();
 
     pacmanState.distsNearestWall[0] = pacmanY + 1;
     pacmanState.distsNearestWall[1] = 5 - pacmanY;
@@ -143,7 +139,7 @@ public class DummyMaze extends Debug implements Maze
   {
     double newDistPacman = Math.abs(pacmanX - ghostX) + Math.abs(pacmanY - ghostY);
     double newDistPowerPill = powerPillStillThere ? Math.abs(ghostX - 4) + Math.abs(ghostY - 4)
-        : INF_DISTANCE;
+        : Config.get().getInfDistance();
 
     ghostState.deltaDistPacMan = newDistPacman - ghostState.distPacMan;
     ghostState.deltaDistGhosts[0] = 0;
@@ -163,10 +159,10 @@ public class DummyMaze extends Debug implements Maze
     ghostState.distsNearestDot[2] = distNearest(ghostX, ghostY, Maze.LEFT, 1);
     ghostState.distsNearestDot[3] = distNearest(ghostX, ghostY, Maze.RIGHT, 1);
 
-    ghostState.distsNearestJunction[0] = INF_DISTANCE;
-    ghostState.distsNearestJunction[1] = INF_DISTANCE;
-    ghostState.distsNearestJunction[2] = INF_DISTANCE;
-    ghostState.distsNearestJunction[3] = INF_DISTANCE;
+    ghostState.distsNearestJunction[0] = Config.get().getInfDistance();
+    ghostState.distsNearestJunction[1] = Config.get().getInfDistance();
+    ghostState.distsNearestJunction[2] = Config.get().getInfDistance();
+    ghostState.distsNearestJunction[3] = Config.get().getInfDistance();
 
     ghostState.distsNearestWall[0] = ghostY + 1;
     ghostState.distsNearestWall[1] = 5 - ghostY;
@@ -186,7 +182,7 @@ public class DummyMaze extends Debug implements Maze
   @Override
   public void tick()
   {
-    if (tickCount >= MAX_TICK)
+    if (tickCount >= Config.get().getMaxTick())
     {
       gameOver = true;
       return;
@@ -328,7 +324,7 @@ public class DummyMaze extends Debug implements Maze
       break;
     }
 
-    return INF_DISTANCE;
+    return Config.get().getInfDistance();
   }
 
   private double nextX(double x, int direction, double step)
