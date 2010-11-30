@@ -123,8 +123,12 @@ public class PlayGround extends Debug implements Runnable
       int[] ghostsMove = gh.move(ghostsStates);
 
       maze.setPacManDirection(playerMove);
+      debug("pacman moving direction: " + playerMove);
       for (int i = 0; i < numOfGhosts; ++i)
+      {
         maze.setGhostDirection(i, ghostsMove[i]);
+        debug("ghost[" + i + "] moving direction: " + ghostsMove[i]);
+      }
       maze.tick();
     }
 
