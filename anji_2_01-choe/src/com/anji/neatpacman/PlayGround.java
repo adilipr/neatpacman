@@ -16,7 +16,7 @@ import com.anji.tournament.PlayerResults;
 public class PlayGround extends Debug implements Runnable
 {
 
-  private static PlayGround the          = null;
+  private static PlayGround the = null;
 
   public static PlayGround get()
   {
@@ -47,6 +47,8 @@ public class PlayGround extends Debug implements Runnable
 
   private Executor            pool;
 
+  private boolean             done             = false;
+
   private Object              pendDone         = new Object();
 
   private PlayGround(int numThreads)
@@ -66,7 +68,7 @@ public class PlayGround extends Debug implements Runnable
     {
       play(pair);
     }
-    
+
     ExecutorService es = (ExecutorService) pool;
     es.shutdown();
     try
@@ -85,6 +87,7 @@ public class PlayGround extends Debug implements Runnable
       {
         the = null;
       }
+      done = true;
       pendDone.notifyAll();
     }
   }
@@ -134,16 +137,22 @@ public class PlayGround extends Debug implements Runnable
 
   public void waitForDone()
   {
-    synchronized (pendDone)
+    if (!done)
     {
-      try
+      synchronized (pendDone)
       {
-        pendDone.wait();
-      }
-      catch (InterruptedException e)
-      {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+        if (!done)
+        {
+          try
+          {
+            pendDone.wait();
+          }
+          catch (InterruptedException e)
+          {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
+        }
       }
     }
   }
