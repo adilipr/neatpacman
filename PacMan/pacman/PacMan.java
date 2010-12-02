@@ -173,7 +173,7 @@ public class PacMan extends Applet
          {
             m_gameModel.m_ghosts[i].setVisible (false); 
          }
-         m_gameModel.m_fruit.setVisible (false);
+//         m_gameModel.m_fruit.setVisible (false);
          m_gameUI.m_bRedrawAll = true;
          m_soundMgr.playSound (SoundManager.SOUND_PACMANDIES);
       }
@@ -212,7 +212,7 @@ public class PacMan extends Applet
       if (m_gameModel.m_nTicks2BeginPlay == 500 / m_delay)
       {
          m_gameModel.setVisibleThings (true);
-         m_gameModel.m_fruit.setVisible (false);
+//         m_gameModel.m_fruit.setVisible (false);
       }
       
       if ((m_gameModel.m_nTicks2BeginPlay == SoundManager.SOUND_START_LENGTH / m_delay && !m_gameModel.m_bStartClipPlayed) ||
@@ -220,7 +220,7 @@ public class PacMan extends Applet
       {
          m_gameModel.m_state = GameModel.STATE_PLAYING;
          m_gameModel.setVisibleThings (true);
-         m_gameModel.m_fruit.setVisible (false);
+//         m_gameModel.m_fruit.setVisible (false);
          m_gameModel.setPausedGame (false);
          m_gameUI.m_bDrawReady = false;
          m_gameUI.m_bRedrawAll = true;

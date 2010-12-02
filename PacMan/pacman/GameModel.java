@@ -58,7 +58,7 @@ public class GameModel
    Ghost[]        m_ghosts;               // Four Ghosts
    Player         m_player;               // Pacman
    PacMan         m_pacMan;               // Controller
-   Fruit          m_fruit;                // Wandering fruits
+//   Fruit          m_fruit;                // Wandering fruits
    int            m_highScore    = 10000; // Default highscore
    int            m_nextFreeUp   = 10000; // Every this many points, earn another life
    int            m_doorLocX     = 13;    // Bad.. Hard code location of door
@@ -108,7 +108,7 @@ public class GameModel
       m_ghosts[2] = new Ghost (this, Thing.GHOST, 13, 14, true, Color.cyan, 4000); 
       m_ghosts[3] = new Ghost (this, Thing.GHOST, 15, 14, false, Color.orange, 6000); 
       // Fruit
-      m_fruit = new Fruit (this, Thing.FRUIT, 13, 17, true);
+//      m_fruit = new Fruit (this, Thing.FRUIT, 13, 17, true);
       
       // GameState
       m_gameSizeX = 28;
@@ -141,14 +141,15 @@ public class GameModel
    
    public void fillThingArray ()
    {
-      int thingsLength = m_ghosts.length + 2;  // Plus 1 for the player and 1 for the fruit
+//      int thingsLength = m_ghosts.length + 2;  // Plus 1 for the player and 1 for the fruit
+      int thingsLength = m_ghosts.length + 1;  // Plus 1 for the player
       m_things = new Thing [thingsLength];
       m_things[0] = m_player;
-      m_things[1] = m_fruit;
-      m_things[2] = m_ghosts[0];
-      m_things[3] = m_ghosts[1];
-      m_things[4] = m_ghosts[2];
-      m_things[5] = m_ghosts[3];
+//      m_things[1] = m_fruit;
+      m_things[1] = m_ghosts[0];
+      m_things[2] = m_ghosts[1];
+      m_things[3] = m_ghosts[2];
+      m_things[4] = m_ghosts[3];
    }
    
    // This method will fill in the right half of the gamestate based on
@@ -318,8 +319,8 @@ public class GameModel
       m_currentFoodCount = 0;
       
       // Make the fruit available for the level
-      m_fruit.m_bAvailable = true;
-      m_fruit.m_nTicks2Show = 15000 / m_pacMan.m_delay;
+//      m_fruit.m_bAvailable = true;
+//      m_fruit.m_nTicks2Show = 15000 / m_pacMan.m_delay;
      
       // Recalculate the back off time of the ghost
       m_nTicks2Backoff = 20000 / m_pacMan.m_delay;
@@ -375,9 +376,9 @@ public class GameModel
       m_ghosts[3].m_locX = 27;
       m_ghosts[3].m_locY = 16;
       
-      m_fruit.m_bAvailable = false;
-      m_fruit.m_lastLocX = -1;
-      m_fruit.m_lastLocY = -1;
+//      m_fruit.m_bAvailable = false;
+//      m_fruit.m_lastLocX = -1;
+//      m_fruit.m_lastLocY = -1;
       
       
       // Overrides for Pacman
