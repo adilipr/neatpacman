@@ -210,7 +210,7 @@ public class Ghost extends Thing
          {
             m_gameModel.setPausedGame (false);      
             m_gameModel.m_player.setVisible (true);
-            m_gameModel.m_pacMan.m_soundMgr.playSound (SoundManager.SOUND_RETURNGHOST);
+//            m_gameModel.m_pacMan.m_soundMgr.playSound (SoundManager.SOUND_RETURNGHOST);
          }
       }
          
