@@ -17,6 +17,7 @@ public class PacMan extends Applet
    
    int            m_ticksPerSec;    // These two variables control game speed    int            m_delay;          // Milliseconds between ticks
 	
+   Graph g;
    public void init ()
    {
       setTicksPerSec (35);
@@ -429,6 +430,10 @@ public class PacMan extends Applet
       if (m_ticker == null)
       {
          m_ticker = new Ticker (this);
+         //@Dilip
+         //used to generate distances.txt file once only
+         g=new Graph();
+         g.callGraphFunctions(this);
          m_ticker.start ();
       }
    }
