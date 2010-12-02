@@ -84,11 +84,20 @@ private int maxFitness = 0;
 
 private Persistence db = null;
 
+private String id;
+
+public Evolver()
+{
+  this("");
+}
+
 /**
  * ctor; must call <code>init()</code> before using this object
+ * @param string 
  */
-public Evolver() {
+public Evolver(String id) {
 	super();
+	this.id = id;
 }
 
 /**
@@ -126,6 +135,7 @@ public void init( Properties props ) throws Exception {
 
 	// logging
 	LogEventListener logListener = new LogEventListener( config );
+	logListener.setId(id);
 	config.getEventManager().addEventListener( GeneticEvent.GENOTYPE_EVOLVED_EVENT, logListener );
 	config.getEventManager()
 			.addEventListener( GeneticEvent.GENOTYPE_EVALUATED_EVENT, logListener );
