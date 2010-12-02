@@ -70,21 +70,26 @@ public void geneticEventFired( GeneticEvent event ) {
 				.getMaxFitnessValue();
 		double fitness = ( maxFitnessValue == 0 ) ? fittest.getFitnessValue() : ( fittest
 				.getFitnessValue() / maxFitnessValue );
-		logger.info( "species count: " + genotype.getSpecies().size() );
+		logger.info( id + " species count: " + genotype.getSpecies().size() );
 		List chroms = genotype.getChromosomes();
 		Iterator iter = chroms.iterator();
 		int maxFitnessCount = 0;
 		while ( iter.hasNext() ) {
 			Chromosome c = (Chromosome) iter.next();
 			if ( c.getFitnessValue() == maxFitnessValue ) {
-				logger.info( "max: id=" + c.getId() + " score=" + fitness + " size=" + c.size() );
+				logger.info( id + " max: id=" + c.getId() + " score=" + fitness + " size=" + c.size() );
 				++maxFitnessCount;
 			}
 		}
 // TODO		if ( maxFitnessCount > 0 )
-			logger.info( "# chromosomes with max fitness: " + maxFitnessCount );
-		logger.info( "champ: id=" + fittest.getId() + " score=" + fitness + " size="
+			logger.info( id + " # chromosomes with max fitness: " + maxFitnessCount );
+		logger.info( id + " champ: id=" + fittest.getId() + " score=" + fitness + " size="
 				+ fittest.size() );
 	}
 }
+
+private String id = "";
+public String getId() { return id; }
+public void setId(String id) { this.id = id; }
+
 }

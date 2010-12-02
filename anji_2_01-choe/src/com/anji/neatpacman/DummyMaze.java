@@ -71,7 +71,6 @@ public class DummyMaze extends Debug implements Maze
     pacmanState.distsNearestDot = new double[4];
     pacmanState.distsNearestJunction = new double[4];
     pacmanState.distsNearestWall = new double[4];
-    pacmanState.distsPowerPill = new double[4];
     pacmanState.isGhostAffected = new double[1];
 
     ghostState.distGhosts = new double[1];
@@ -85,7 +84,6 @@ public class DummyMaze extends Debug implements Maze
     ghostState.distsNearestDot = new double[4];
     ghostState.distsNearestJunction = new double[4];
     ghostState.distsNearestWall = new double[4];
-    ghostState.distsPowerPill = new double[4];
     ghostState.isGhostAffected = new double[1];
   }
 
@@ -123,11 +121,6 @@ public class DummyMaze extends Debug implements Maze
     pacmanState.distsNearestWall[1] = 5 - pacmanY;
     pacmanState.distsNearestWall[2] = pacmanX + 1;
     pacmanState.distsNearestWall[3] = 5 - pacmanY;
-
-    pacmanState.distsPowerPill[0] = distNearest(pacmanX, pacmanY, Maze.UP, 2);
-    pacmanState.distsPowerPill[1] = distNearest(pacmanX, pacmanY, Maze.DOWN, 2);
-    pacmanState.distsPowerPill[2] = distNearest(pacmanX, pacmanY, Maze.LEFT, 2);
-    pacmanState.distsPowerPill[3] = distNearest(pacmanX, pacmanY, Maze.RIGHT, 2);
 
     pacmanState.isGhostAffected[0] = ghostAffected ? 1.0 : 0.0;
 
@@ -168,11 +161,6 @@ public class DummyMaze extends Debug implements Maze
     ghostState.distsNearestWall[1] = 5 - ghostY;
     ghostState.distsNearestWall[2] = ghostX + 1;
     ghostState.distsNearestWall[3] = 5 - ghostX;
-
-    ghostState.distsPowerPill[0] = distNearest(ghostX, ghostY, Maze.UP, 8);
-    ghostState.distsPowerPill[1] = distNearest(ghostX, ghostY, Maze.DOWN, 8);
-    ghostState.distsPowerPill[2] = distNearest(ghostX, ghostY, Maze.LEFT, 8);
-    ghostState.distsPowerPill[3] = distNearest(ghostX, ghostY, Maze.RIGHT, 8);
 
     ghostState.isGhostAffected[0] = ghostAffected ? 1.0 : 0.0;
 

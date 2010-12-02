@@ -10,9 +10,9 @@ public interface Maze
 
   static final int        DOWN                          = 2;
 
-  static final int        LEFT                          = 4;
+  static final int        LEFT                          = 3;
 
-  static final int        RIGHT                         = 8;
+  static final int        RIGHT                         = 4;
 
   // query game state (for neural network inputs)
   GameState getPacManState();

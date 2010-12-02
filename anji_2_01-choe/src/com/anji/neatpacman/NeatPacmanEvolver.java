@@ -23,9 +23,9 @@ public class NeatPacmanEvolver
 
   public NeatPacmanEvolver(Properties playerProps, Properties ghostsProps) throws Exception
   {
-    playerEvolver = new Evolver();
+    playerEvolver = new Evolver("player");
     playerEvolver.init(playerProps);
-    ghostEvolver = new Evolver();
+    ghostEvolver = new Evolver("ghosts");
     ghostEvolver.init(ghostsProps);
   }
 

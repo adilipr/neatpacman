@@ -14,7 +14,7 @@ import java.util.List;
 public class GameState
 {
   
-  // total number of inputs: 21 + 4G + 2J + 2P
+  // total number of inputs: 17 + 4G + 2J + 2P
   // G = # ghosts, J = # junctions, P = # power pills
   
   // distances to pacman / ghosts / junctions / pills
@@ -50,8 +50,6 @@ public class GameState
   public double[] distsNearestJunction;
 
   public double[] distsNearestDot;
-
-  public double[] distsPowerPill;
 
   // is a ghost affected by power pill? yes - 1.0, no - 0.0
   public double[] isGhostAffected;
@@ -102,7 +100,6 @@ public class GameState
     vs.addAll(asList(distsNearestWall));
     vs.addAll(asList(distsNearestJunction));
     vs.addAll(asList(distsNearestDot));
-    vs.addAll(asList(distsPowerPill));
     vs.addAll(asList(isGhostAffected));
     return vs;
   }
