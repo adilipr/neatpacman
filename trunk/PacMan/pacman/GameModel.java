@@ -95,7 +95,7 @@ public class GameModel
    
    // Variable associated with game over
    int         m_nTicks2GameOver = 0;
-      GameModel (PacMan pacMan)
+      public GameModel (PacMan pacMan)
    {
       super ();
       m_pacMan = pacMan;
@@ -118,25 +118,33 @@ public class GameModel
       fillThingArray ();
    }
    
+   //@author Dilip-start
+   //public get gamestate array
+   public int[][] getGameState()
+   {
+	   return m_gameState;
+   }
+   //Dilip-end
+   
    // Use bitwise operations to test for gameCell contents
-   static public boolean hasNorthWall (short gameCell)
+   static public boolean hasNorthWall (int gameState)
    {
-      return (gameCell & GS_NORTH) != 0;
+      return (gameState & GS_NORTH) != 0;
    }
    
-   static public boolean hasEastWall (short gameCell)
+   static public boolean hasEastWall (int gameState)
    {
-      return (gameCell & GS_EAST) != 0;
+      return (gameState & GS_EAST) != 0;
    }
    
-   static public boolean hasSouthWall (short gameCell)
+   static public boolean hasSouthWall (int gameState)
    {
-      return (gameCell & GS_SOUTH) != 0;
+      return (gameState & GS_SOUTH) != 0;
    }
    
-   static public boolean hasWestWall (short gameCell)
+   static public boolean hasWestWall (int gameState)
    {
-      return (gameCell & GS_WEST) != 0;
+      return (gameState & GS_WEST) != 0;
    }
    
    public void fillThingArray ()
