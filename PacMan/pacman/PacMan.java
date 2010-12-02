@@ -140,7 +140,7 @@ public class PacMan extends Applet
       if (m_gameModel.m_nTicks2LevelComp == 1900 / m_delay)
       {
          // This will advance the level and set the State to STATE_BEGIN_PLAY
-         m_gameModel.loadNextLevel ();
+         m_gameModel.loadNextLevel (); // should terminate the game here -- yin
          m_gameModel.m_state = GameModel.STATE_BEGIN_PLAY;
          m_gameModel.m_nTicks2LevelComp = 0;
          m_gameUI.m_bFlipWallColor = false;

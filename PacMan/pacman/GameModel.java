@@ -152,35 +152,6 @@ public class GameModel
       m_things[4] = m_ghosts[3];
    }
    
-   // This method will fill in the right half of the gamestate based on
-   // the left half assuming symmetrical design.
-   // Deprecated now that I have the Level Designer App
-   public void completeGameState ()
-   {
-      short gameState = 0;
-      for (int x = 0; x < m_gameSizeX/2; x++)
-      {
-         for (int y = 0; y < m_gameSizeY; y++)
-         {
-            if ((m_gameState[x][y] & GS_NORTH) != 0)
-               gameState |= GS_NORTH;
-            if ((m_gameState[x][y] & GS_SOUTH) != 0)
-               gameState |= GS_SOUTH;
-            if ((m_gameState[x][y] & GS_WEST) != 0)
-               gameState |= GS_EAST;
-            if ((m_gameState[x][y] & GS_EAST) != 0)
-               gameState |= GS_WEST;
-            if ((m_gameState[x][y] & GS_FOOD) != 0)
-               gameState |= GS_FOOD;
-            if ((m_gameState[x][y] & GS_POWERUP) != 0)
-               gameState |= GS_POWERUP;
-                                      
-            m_gameState[m_gameSizeX-x-1][y] |= gameState;
-            gameState = 0;
-         }
-      }
-   }
-   
    // Pause Pacman and Ghosts
    public void setPausedGame (boolean bPaused)
    {
