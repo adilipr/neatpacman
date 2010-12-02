@@ -12,7 +12,7 @@ public class PacMan extends Applet
    BottomCanvas   m_bottomCanvas;
    GameUI         m_gameUI;
    Ticker         m_ticker;      // Used to update the game state and UI
-   SoundManager   m_soundMgr;
+//   SoundManager   m_soundMgr;
    int            m_globalTickCount = 0;
    
    int            m_ticksPerSec;    // These two variables control game speed    int            m_delay;          // Milliseconds between ticks
@@ -50,8 +50,8 @@ public class PacMan extends Applet
       addKeyListener (new pacManKeyAdapter(this));
                 
       validate ();
-      m_soundMgr = new SoundManager (this, getCodeBase ());
-      m_soundMgr.loadSoundClips ();
+//      m_soundMgr = new SoundManager (this, getCodeBase ());
+//      m_soundMgr.loadSoundClips ();
       
       
    }
@@ -60,7 +60,7 @@ public class PacMan extends Applet
 	public void tick ()   {
       //long temp = System.currentTimeMillis ();      m_globalTickCount++;      
       if (m_gameModel.m_state == GameModel.STATE_ABOUT)
-      {         m_soundMgr.stop ();
+      {//         m_soundMgr.stop ();
          m_gameModel.m_bIntroInited = false;         m_gameUI.m_bShowIntro = false;         m_gameUI.m_bShowAbout = true;
          m_gameUI.m_bRedrawAll = true;
          m_gameModel.m_nTicks2AboutShow++;         if (m_gameModel.m_nTicks2AboutShow == 15000 / m_delay)
@@ -72,7 +72,7 @@ public class PacMan extends Applet
       {         m_gameUI.m_bDrawPaused = true;         m_gameUI.m_bRedrawAll = true;
          m_gameUI.repaint ();         return;      
       } else if (m_gameModel.m_state == GameModel.STATE_NEWGAME)      {
-         m_soundMgr.stop ();         m_gameModel.newGame ();
+//         m_soundMgr.stop ();         m_gameModel.newGame ();
          m_gameModel.m_state = GameModel.STATE_BEGIN_PLAY;         m_gameModel.m_nTicks2BeginPlay = 0;
          m_gameModel.m_bIntroInited = false;         m_gameUI.m_bShowIntro = false;
          m_gameUI.m_bShowAbout = false;         m_gameUI.m_bRedrawAll = true;
@@ -89,9 +89,9 @@ public class PacMan extends Applet
                   m_gameUI.m_bDrawGameOver = true;         m_gameUI.m_bRedrawAll = true;
          m_gameUI.repaint ();         return;               } else if (m_gameModel.m_state == GameModel.STATE_LEVELCOMPLETE)
       {
-         m_soundMgr.stop ();         tickLevelComplete ();      
+//         m_soundMgr.stop ();         tickLevelComplete ();      
       } else if (m_gameModel.m_state == GameModel.STATE_DEADPACMAN)
-      {         m_soundMgr.stop ();
+      {//         m_soundMgr.stop ();
          if (m_gameModel.m_nLives == 0)         {
             m_gameModel.m_state = GameModel.STATE_GAMEOVER;
             m_gameModel.m_nTicks2GameOver = 0;                     } else {
@@ -161,7 +161,7 @@ public class PacMan extends Applet
          m_gameUI.m_bRedrawAll = true;
          m_gameModel.m_nOrigTicksPerSecond = m_ticksPerSec;
          setTicksPerSec (35);
-         m_soundMgr.stop ();
+//         m_soundMgr.stop ();
       }
       
       m_gameModel.m_nTicks2DeadPlay++;
@@ -175,10 +175,11 @@ public class PacMan extends Applet
          }
 //         m_gameModel.m_fruit.setVisible (false);
          m_gameUI.m_bRedrawAll = true;
-         m_soundMgr.playSound (SoundManager.SOUND_PACMANDIES);
+//         m_soundMgr.playSound (SoundManager.SOUND_PACMANDIES);
       }
       
-      if (m_gameModel.m_nTicks2DeadPlay == (SoundManager.SOUND_PACMANDIES_LENGTH + 1000) / m_delay)
+//      if (m_gameModel.m_nTicks2DeadPlay == (SoundManager.SOUND_PACMANDIES_LENGTH + 1000) / m_delay)
+      if (m_gameModel.m_nTicks2DeadPlay == 1000 / m_delay)
       {
          m_gameModel.m_state = GameModel.STATE_DEADPACMAN;  //STATE_LEVELCOMPLETE
          m_gameModel.m_nTicks2DeadPlay = 0;
@@ -201,7 +202,7 @@ public class PacMan extends Applet
          m_gameUI.refreshRedrawHash ();
          if (m_gameModel.m_bPlayStartClip)
          {
-            m_soundMgr.playSound (SoundManager.SOUND_START);
+//            m_soundMgr.playSound (SoundManager.SOUND_START);
             m_gameModel.m_bPlayStartClip = false;
          } 
          m_bottomCanvas.repaint (); 
@@ -215,7 +216,8 @@ public class PacMan extends Applet
 //         m_gameModel.m_fruit.setVisible (false);
       }
       
-      if ((m_gameModel.m_nTicks2BeginPlay == SoundManager.SOUND_START_LENGTH / m_delay && !m_gameModel.m_bStartClipPlayed) ||
+//      if ((m_gameModel.m_nTicks2BeginPlay == SoundManager.SOUND_START_LENGTH / m_delay && !m_gameModel.m_bStartClipPlayed) ||
+      if ((!m_gameModel.m_bStartClipPlayed) ||
           (m_gameModel.m_nTicks2BeginPlay == 1000 / m_delay && m_gameModel.m_bStartClipPlayed))
       {
          m_gameModel.m_state = GameModel.STATE_PLAYING;
@@ -226,7 +228,7 @@ public class PacMan extends Applet
          m_gameUI.m_bRedrawAll = true;
          m_gameModel.m_nTicks2BeginPlay = 0;
          m_gameModel.m_bStartClipPlayed = true;
-         m_soundMgr.playSound (SoundManager.SOUND_SIREN);
+//         m_soundMgr.playSound (SoundManager.SOUND_SIREN);
       }
    }
    
@@ -238,7 +240,7 @@ public class PacMan extends Applet
       // Check if player has earned free life
       if (m_gameModel.m_player.m_score >= m_gameModel.m_nextFreeUp)
       {
-         m_soundMgr.playSound (SoundManager.SOUND_EXTRAPAC);
+//         m_soundMgr.playSound (SoundManager.SOUND_EXTRAPAC);
          m_gameModel.m_nLives += 1;
          m_gameModel.m_nextFreeUp += 10000;
          m_bottomCanvas.repaint ();
@@ -251,7 +253,7 @@ public class PacMan extends Applet
          
          if (nCollisionCode == 1) // Ghost was eaten
          {
-            m_soundMgr.playSound (SoundManager.SOUND_EATGHOST);
+//            m_soundMgr.playSound (SoundManager.SOUND_EATGHOST);
             break; // Must be eaten one tick at a time
          } else if (nCollisionCode == 2) // Pacman was caught.
          {
@@ -261,7 +263,7 @@ public class PacMan extends Applet
             return;
          } else if (nCollisionCode == 3) // Pacman ate a Fruit
          {
-            m_soundMgr.playSound (SoundManager.SOUND_EATFRUIT);
+//            m_soundMgr.playSound (SoundManager.SOUND_EATFRUIT);
             break; // Must be eaten one tick at a time // TODO
          }
       }
@@ -285,8 +287,8 @@ public class PacMan extends Applet
       if (bFleeing != true)
       {
          m_gameModel.m_eatGhostPoints = 200;
-         m_soundMgr.stopSound (SoundManager.SOUND_GHOSTBLUE);
-         m_soundMgr.playSound (SoundManager.SOUND_SIREN);
+//         m_soundMgr.stopSound (SoundManager.SOUND_GHOSTBLUE);
+//         m_soundMgr.playSound (SoundManager.SOUND_SIREN);
       }
          
       if (m_gameModel.m_totalFoodCount == m_gameModel.m_currentFoodCount)
@@ -295,7 +297,7 @@ public class PacMan extends Applet
          m_gameModel.m_nTicks2LevelComp = 0;
       }
       // Tick the sound manager (mainly to check if the Chomping loop needs to be stopped)
-      m_soundMgr.tickSound ();
+//      m_soundMgr.tickSound ();
    }
    
    // Ticked when the game is running the intro
@@ -434,7 +436,7 @@ public class PacMan extends Applet
    public void stop ()
    {
       m_ticker = null;
-      m_soundMgr.stop ();
+//      m_soundMgr.stop ();
    }
    
    void setTicksPerSec (int ticks)
@@ -541,9 +543,9 @@ class pacManKeyAdapter extends KeyAdapter{
             break;
             
       case KeyEvent.VK_A:            m_pacMan.m_gameModel.m_state = GameModel.STATE_ABOUT;            m_pacMan.m_gameModel.m_nTicks2AboutShow = 0;            break;
-                  case KeyEvent.VK_S:            m_pacMan.m_soundMgr.m_bEnabled = !m_pacMan.m_soundMgr.m_bEnabled;            if (m_pacMan.m_soundMgr.m_bEnabled == false)
-               m_pacMan.m_soundMgr.stop ();
-            m_pacMan.m_bottomCanvas.repaint ();            break;
+            //      case KeyEvent.VK_S://            m_pacMan.m_soundMgr.m_bEnabled = !m_pacMan.m_soundMgr.m_bEnabled;//            if (m_pacMan.m_soundMgr.m_bEnabled == false)
+//               m_pacMan.m_soundMgr.stop ();
+//            m_pacMan.m_bottomCanvas.repaint ();//            break;
              
       case KeyEvent.VK_I:            m_pacMan.toggleGhostAI ();
             break;            default:

@@ -100,10 +100,10 @@ class BottomCanvas extends Canvas{
       y += fm.getAscent() + fm.getDescent();
       m_offGraphics.drawString ("\'A\' for About", x, y);
       
-      y += fm.getAscent() + fm.getDescent();      if (m_pacMan.m_soundMgr != null && m_pacMan.m_soundMgr.m_bEnabled)
-         m_offGraphics.drawString ("\'S\' for No Sound", x, y);
-      else
-         m_offGraphics.drawString ("\'S\' for Sound", x, y);   
+      y += fm.getAscent() + fm.getDescent();//      if (m_pacMan.m_soundMgr != null && m_pacMan.m_soundMgr.m_bEnabled)
+//         m_offGraphics.drawString ("\'S\' for No Sound", x, y);
+//      else
+//         m_offGraphics.drawString ("\'S\' for Sound", x, y);   
       //y += fm.getAscent() + fm.getDescent();
       //m_offGraphics.drawString ("\'I\'  for Insane AI", x, y);
             // buffer to front
