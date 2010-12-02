@@ -453,7 +453,7 @@ public class PacMan extends Applet
       }
    }
    
-   /* Can't run Pacman as an application since it use sound-related methods.
+   /* Can't run Pacman as an application since it use sound-related methods. */
    public static void main (String args[])
    {
       // Create new window
@@ -471,10 +471,8 @@ public class PacMan extends Applet
       
       pacMan.start ();
    }
-   */
 }
 
-/*
 class MainFrame extends Frame
 {
    MainFrame (String title)
@@ -491,7 +489,6 @@ class MainFrame extends Frame
       return super.handleEvent (e);
    }
 }
-*/
 
 // Ticker thread that updates the game state and refreshes the UI
 // 
