@@ -117,19 +117,23 @@ public class Player extends Thing
             m_degreeRotation = 270;
             break;
       }
-            g2.setColor (Color.yellow);      
-      // Draw Pacman Chomping      if (!m_bDrawDead)      {
-         g2.fillArc ((int)(pacManX + deltaPixelX), (int)(pacManY + deltaPixelY), pacManDiameter, pacManDiameter, m_degreeRotation + m_mouthDegree, 200);
-         g2.fillArc ((int)(pacManX + deltaPixelX), (int)(pacManY + deltaPixelY), pacManDiameter, pacManDiameter, m_degreeRotation - m_mouthDegree, -200);      
-      } else {         // Draw Pacman dying         if (m_rotationDying > 450)         {
-            m_rotationDying = 450;            m_mouthDegreeDying += 5;
-            m_mouthArcDying -= 5;
-                        if (m_mouthArcDying < 0)
-               m_mouthArcDying = 0;            
-         }
-         g2.fillArc ((int)(pacManX + deltaPixelX), (int)(pacManY + deltaPixelY), pacManDiameter, pacManDiameter, m_rotationDying + m_mouthDegreeDying, m_mouthArcDying);
-         g2.fillArc ((int)(pacManX + deltaPixelX), (int)(pacManY + deltaPixelY), pacManDiameter, pacManDiameter, m_rotationDying - m_mouthDegreeDying, -m_mouthArcDying);
-         m_rotationDying += 20;      }         
+      
+      if (Thing.DRAW)
+      {        g2.setColor (Color.yellow);        
+        // Draw Pacman Chomping        if (!m_bDrawDead)        {
+           g2.fillArc ((int)(pacManX + deltaPixelX), (int)(pacManY + deltaPixelY), pacManDiameter, pacManDiameter, m_degreeRotation + m_mouthDegree, 200);
+           g2.fillArc ((int)(pacManX + deltaPixelX), (int)(pacManY + deltaPixelY), pacManDiameter, pacManDiameter, m_degreeRotation - m_mouthDegree, -200);
+        
+        } else {           // Draw Pacman dying           if (m_rotationDying > 450)           {
+              m_rotationDying = 450;              m_mouthDegreeDying += 5;
+              m_mouthArcDying -= 5;
+                            if (m_mouthArcDying < 0)
+                 m_mouthArcDying = 0;              
+           }
+           g2.fillArc ((int)(pacManX + deltaPixelX), (int)(pacManY + deltaPixelY), pacManDiameter, pacManDiameter, m_rotationDying + m_mouthDegreeDying, m_mouthArcDying);
+           g2.fillArc ((int)(pacManX + deltaPixelX), (int)(pacManY + deltaPixelY), pacManDiameter, pacManDiameter, m_rotationDying - m_mouthDegreeDying, -m_mouthArcDying);
+           m_rotationDying += 20;        }
+      }         
       m_boundingBox.setBounds ((int)(pacManX + deltaPixelX), (int)(pacManY + deltaPixelY), pacManDiameter, pacManDiameter);
       m_boundingBoxFull.setBounds (m_boundingBox);      m_boundingBox.grow (-pacManDiameter / 5, -pacManDiameter / 5); // Make the bounding box smaller because Pacman is a Circle and not a Square.
       

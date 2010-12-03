@@ -52,7 +52,8 @@ public class GameModel
    int            m_gameSizeX;
    int            m_gameSizeY;            
    int            m_stage;                // Same as level of difficulty
-   int            m_state = STATE_INTRO;  // FSM state
+//   int            m_state = STATE_INTRO;  // FSM state
+   int            m_state = STATE_NEWGAME;  // FSM state
    int            m_pausedState;          // Save FSM state when game is paused
    Thing[]        m_things;               // Contains references to Pacman and Ghosts
    Ghost[]        m_ghosts;               // Four Ghosts
@@ -60,7 +61,7 @@ public class GameModel
    PacMan         m_pacMan;               // Controller
 //   Fruit          m_fruit;                // Wandering fruits
    int            m_highScore    = 10000; // Default highscore
-   int            m_nextFreeUp   = 10000; // Every this many points, earn another life
+//   int            m_nextFreeUp   = 10000; // Every this many points, earn another life
    int            m_doorLocX     = 13;    // Bad.. Hard code location of door
    int            m_doorLocY     = 12;    // Bad.. Hard code location of door
       
@@ -104,9 +105,9 @@ public class GameModel
       m_player = new Player (this, Thing.PACMAN, 13, 23, true);
       m_ghosts = new Ghost[4];
       m_ghosts[0] = new Ghost (this, Thing.GHOST, 13, 11, true, Color.red, 0);
-      m_ghosts[1] = new Ghost (this, Thing.GHOST, 12, 14, false, Color.pink, 2000);
-      m_ghosts[2] = new Ghost (this, Thing.GHOST, 13, 14, true, Color.cyan, 4000); 
-      m_ghosts[3] = new Ghost (this, Thing.GHOST, 15, 14, false, Color.orange, 6000); 
+      m_ghosts[1] = new Ghost (this, Thing.GHOST, 12, 14, false, Color.pink, 57);
+      m_ghosts[2] = new Ghost (this, Thing.GHOST, 13, 14, true, Color.cyan, 114); 
+      m_ghosts[3] = new Ghost (this, Thing.GHOST, 15, 14, false, Color.orange, 171); 
       // Fruit
 //      m_fruit = new Fruit (this, Thing.FRUIT, 13, 17, true);
       
@@ -277,13 +278,14 @@ public class GameModel
       else
          ticksPerSecond = 35 + (m_stage - 1) * 3;
       
-      m_pacMan.setTicksPerSec (ticksPerSecond);
+//      m_pacMan.setTicksPerSec (ticksPerSecond);
       
       // Decrease the blue ghost time up to the last board
-      if (m_stage > 10)
-         m_nTicksPowerup = 1000 / m_pacMan.m_delay;
-      else
-         m_nTicksPowerup = (10000 - (m_stage - 1) * 1000) / m_pacMan.m_delay;
+//      if (m_stage > 10)
+//         m_nTicksPowerup = 1000 / m_pacMan.m_delay;
+//      else
+//         m_nTicksPowerup = (10000 - (m_stage - 1) * 1000) / m_pacMan.m_delay;
+      m_nTicksPowerup = 28;
          
       // Put Things back to start location
       for (int i = 0; i < m_things.length; i++)
@@ -302,7 +304,8 @@ public class GameModel
 //      m_fruit.m_nTicks2Show = 15000 / m_pacMan.m_delay;
      
       // Recalculate the back off time of the ghost
-      m_nTicks2Backoff = 20000 / m_pacMan.m_delay;
+//      m_nTicks2Backoff = 20000 / m_pacMan.m_delay;
+      m_nTicks2Backoff = 571;
    
    }
    
@@ -310,14 +313,15 @@ public class GameModel
    public void newGame ()
    {
       m_stage = 0;
-      m_nLives = 2;
+//      m_nLives = 2;
+      m_nLives = 0;
       m_bPlayStartClip = true;
       m_bStartClipPlayed = false;
       loadNextLevel ();
       setVisibleThings (false);
       m_currentFoodCount = 0;
       m_player.m_score = 0;
-      m_nextFreeUp = 10000;
+//      m_nextFreeUp = 10000;
    }
    
    // Initialize the gamestate for running the intro

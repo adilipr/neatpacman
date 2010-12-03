@@ -18,16 +18,30 @@ public class PacMan extends Applet
    int            m_ticksPerSec;    // These two variables control game speed    int            m_delay;          // Milliseconds between ticks
 	
    Graph g;
+   
+   public PacMan()
+   {
+     this(35, true);
+   }
+   
+   public PacMan(int tickPerSec, boolean gui)
+   {
+     setTicksPerSec(tickPerSec);
+     Thing.DRAW = gui;
+   }
+   
    public void init ()
    {
-      setTicksPerSec (35);
+//      setTicksPerSec (35);
       
       // Create canvases and layout
       m_gameModel = new GameModel (this); 
       m_gameUI = new GameUI (this, m_gameModel, 409, 450);
       m_topCanvas = new TopCanvas (m_gameModel, 200, 200);
       m_bottomCanvas = new BottomCanvas (this, m_gameModel, 200, 250);
-       
+      
+      if (Thing.DRAW)
+      {
       GridBagLayout gridBag = new GridBagLayout ();
       GridBagConstraints c = new GridBagConstraints ();
       
@@ -54,6 +68,7 @@ public class PacMan extends Applet
 //      m_soundMgr = new SoundManager (this, getCodeBase ());
 //      m_soundMgr.loadSoundClips ();
       
+      }
       
    }
    
@@ -64,7 +79,8 @@ public class PacMan extends Applet
       {//         m_soundMgr.stop ();
          m_gameModel.m_bIntroInited = false;         m_gameUI.m_bShowIntro = false;         m_gameUI.m_bShowAbout = true;
          m_gameUI.m_bRedrawAll = true;
-         m_gameModel.m_nTicks2AboutShow++;         if (m_gameModel.m_nTicks2AboutShow == 15000 / m_delay)
+         m_gameModel.m_nTicks2AboutShow++;//         if (m_gameModel.m_nTicks2AboutShow == 15000 / m_delay)
+         if (m_gameModel.m_nTicks2AboutShow == 428)
          {            m_gameModel.m_state = GameModel.STATE_INTRO;            m_gameModel.m_nTicks2AboutShow = 0;         }
          
       } else if (m_gameModel.m_state == GameModel.STATE_INTRO)      {
@@ -84,14 +100,15 @@ public class PacMan extends Applet
             }            }
          
          m_gameModel.m_nTicks2GameOver++;         
-         // After 3 seconds go to the intro page         if (m_gameModel.m_nTicks2GameOver == 3000 / m_delay)         {
+         // After 3 seconds go to the intro page//         if (m_gameModel.m_nTicks2GameOver == 3000 / m_delay)         if (m_gameModel.m_nTicks2GameOver == 85)         {
             m_gameModel.m_state = GameModel.STATE_INTRO;            m_gameModel.m_nTicks2GameOver = 0;
          }
                   m_gameUI.m_bDrawGameOver = true;         m_gameUI.m_bRedrawAll = true;
          m_gameUI.repaint ();         return;               } else if (m_gameModel.m_state == GameModel.STATE_LEVELCOMPLETE)
       {
-//         m_soundMgr.stop ();         tickLevelComplete ();      
-      } else if (m_gameModel.m_state == GameModel.STATE_DEADPACMAN)
+//         m_soundMgr.stop ();//         tickLevelComplete ();
+        System.out.println("game over: pacman won!");
+        stop();      } else if (m_gameModel.m_state == GameModel.STATE_DEADPACMAN)
       {//         m_soundMgr.stop ();
          if (m_gameModel.m_nLives == 0)         {
             m_gameModel.m_state = GameModel.STATE_GAMEOVER;
@@ -106,10 +123,21 @@ public class PacMan extends Applet
          tickGamePlay ();
       } else if (m_gameModel.m_state == GameModel.STATE_DEAD_PLAY)
       {
-         tickDeadPlay ();
-      }
+//         tickDeadPlay ();
+        System.out.println("game over: pacman lost.");
+        stop();      }
             
-      m_gameUI.repaint();        m_topCanvas.repaint ();     
+      if (Thing.DRAW)
+      {
+        m_gameUI.repaint();          m_topCanvas.repaint ();
+      }
+      else
+      {
+        for (int i = 0; i < m_gameModel.m_things.length; ++i)
+        {
+          m_gameModel.m_things[i].draw(m_gameUI, null);
+        }
+      }     
 	}
    
    // Ticked when level has completed
@@ -239,13 +267,13 @@ public class PacMan extends Applet
       boolean  bFleeing = false;
       int      nCollisionCode;      
       // Check if player has earned free life
-      if (m_gameModel.m_player.m_score >= m_gameModel.m_nextFreeUp)
-      {
-//         m_soundMgr.playSound (SoundManager.SOUND_EXTRAPAC);
-         m_gameModel.m_nLives += 1;
-         m_gameModel.m_nextFreeUp += 10000;
-         m_bottomCanvas.repaint ();
-      }
+//      if (m_gameModel.m_player.m_score >= m_gameModel.m_nextFreeUp)
+//      {
+////         m_soundMgr.playSound (SoundManager.SOUND_EXTRAPAC);
+//         m_gameModel.m_nLives += 1;
+//         m_gameModel.m_nextFreeUp += 10000;
+//         m_bottomCanvas.repaint ();
+//      }
       
       // Check for collisions between Things and Pacman
       for (int i =0; i < m_gameModel.m_things.length; i++)
@@ -430,10 +458,12 @@ public class PacMan extends Applet
       if (m_ticker == null)
       {
          m_ticker = new Ticker (this);
+         /*
          //@Dilip
          //used to generate distances.txt file once only
          g=new Graph();
          g.callGraphFunctions(this);
+         */
          m_ticker.start ();
       }
    }
@@ -461,18 +491,34 @@ public class PacMan extends Applet
    /* Can't run Pacman as an application since it use sound-related methods. */
    public static void main (String args[])
    {
+     System.out.println("optional args: <tick-per-second> <if-show-gui>");
+     
+     int tickPerSec = 35;
+     boolean gui = true;
+     
+     if (args.length == 2)
+     {
+       tickPerSec = Integer.parseInt(args[0]);
+       gui = Boolean.parseBoolean(args[1]);
+     }
+     
       // Create new window
-      MainFrame frame = new MainFrame ("PacMan");
+     MainFrame frame = null;
+      if (Thing.DRAW)
+        frame = new MainFrame ("PacMan");
       
       // Create PacMan instance
-      PacMan pacMan = new PacMan ();
+      PacMan pacMan = new PacMan (tickPerSec, gui);
       
       // Initialize instance
       pacMan.init ();
       
-      frame.add ("Center", pacMan);
-      frame.pack ();
-      frame.show ();
+      if (Thing.DRAW)
+      {
+        frame.add ("Center", pacMan);
+        frame.pack ();
+        frame.show ();
+      }
       
       pacMan.start ();
    }
