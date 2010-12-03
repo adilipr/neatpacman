@@ -118,7 +118,7 @@ public class Player extends Thing
             break;
       }
       
-      if (Thing.DRAW)
+      if (m_gameModel.m_pacMan.isGuiEnabled())
       {        g2.setColor (Color.yellow);        
         // Draw Pacman Chomping        if (!m_bDrawDead)        {
            g2.fillArc ((int)(pacManX + deltaPixelX), (int)(pacManY + deltaPixelY), pacManDiameter, pacManDiameter, m_degreeRotation + m_mouthDegree, 200);

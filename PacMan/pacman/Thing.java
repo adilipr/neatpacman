@@ -4,14 +4,12 @@ import java.awt.*;
 // Pacman and Ghosts
 public class Thing
 {
-  public static boolean DRAW = true;
-  
    // Thing's next step is one of these constants
-   static final byte STILL = 0;
-   static final byte UP = 1; 
-   static final byte DOWN = 2;
-   static final byte LEFT = 3;
-   static final byte RIGHT = 4;
+   public static final byte STILL = 0;
+   public static final byte UP = 1; 
+   public static final byte DOWN = 2;
+   public static final byte LEFT = 3;
+   public static final byte RIGHT = 4;
    int  m_deltaMax   = 3;      // m_deltaMax * 2 - 1 Intervals between two cells for smooth animation
                          
    

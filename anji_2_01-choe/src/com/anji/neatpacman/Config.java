@@ -31,6 +31,8 @@ public class Config
     maxTick = prop.getIntProperty("neatpacman.max_tick", 1000);
     numOfThreads = prop.getIntProperty("neatpacman.num_of_threads", 1);
     numOfGhosts = prop.getIntProperty("neatpacman.num_of_ghosts", 1);
+    isGuiEnabled = prop.getBooleanProperty("neatpacman.gui_enabled", false);
+    milliSecBetweenTicks = prop.getIntProperty("neatpacman.ms_between_ticks", 0);
   }
 
   private int playerMaxScore;
@@ -83,6 +85,20 @@ public class Config
   public int getNumOfGhosts()
   {
     return numOfGhosts;
+  }
+  
+  private boolean isGuiEnabled;
+  
+  public boolean isGuiEnabled()
+  {
+    return isGuiEnabled;
+  }
+  
+  private int milliSecBetweenTicks;
+  
+  public int getMilliSecBetweenTicks()
+  {
+    return milliSecBetweenTicks;
   }
 
 }

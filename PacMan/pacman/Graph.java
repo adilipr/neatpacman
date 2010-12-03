@@ -42,7 +42,7 @@ public class Graph
 		//PacMan pacman = null;
 		//PacMan pacman;
 		//pacman.init();
-		gamemodel=new GameModel(pacman);
+		gamemodel=new GameModel(pacman, 4);
 		int [][] gameState= new int[28][31];
 		gamemodel.loadPacManMaze();
 		gameState=gamemodel.getGameState();

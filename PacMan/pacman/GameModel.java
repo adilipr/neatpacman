@@ -8,6 +8,8 @@ import java.awt.*;
 // quickly.
 public class GameModel
 {
+  private int numOfGhosts; // must <= 4
+  
    // Gamestate Values
    // GS_**** where in this location, a wall exists in the **** direction.
    static final int GS_NORTH   = 1 << 0;
@@ -96,18 +98,31 @@ public class GameModel
    
    // Variable associated with game over
    int         m_nTicks2GameOver = 0;
-      public GameModel (PacMan pacMan)
+   
+   // init values for ghosts    static Color[] colors = new Color[] { Color.red, Color.pink, Color.cyan, Color.orange };
+    static int[] xs = new int[] {13, 12, 13, 15};
+    static int[] ys = new int[] {11, 14, 14, 14};
+      
+   public GameModel (PacMan pacMan, int numOfGhosts)
    {
       super ();
+      
+      assert numOfGhosts <= 4 : "too many ghosts!";
+      
+      this.numOfGhosts = numOfGhosts;
       m_pacMan = pacMan;
       m_stage = 1;
       // Ghosts and Pacman
       m_player = new Player (this, Thing.PACMAN, 13, 23, true);
-      m_ghosts = new Ghost[4];
-      m_ghosts[0] = new Ghost (this, Thing.GHOST, 13, 11, true, Color.red, 0);
-      m_ghosts[1] = new Ghost (this, Thing.GHOST, 12, 14, false, Color.pink, 57);
-      m_ghosts[2] = new Ghost (this, Thing.GHOST, 13, 14, true, Color.cyan, 114); 
-      m_ghosts[3] = new Ghost (this, Thing.GHOST, 15, 14, false, Color.orange, 171); 
+//      m_ghosts = new Ghost[4];
+      
+      m_ghosts = new Ghost[numOfGhosts];
+      for (int i = 0; i < numOfGhosts; ++i)
+        m_ghosts[i] = new Ghost (this, Thing.GHOST, xs[i], ys[i], true, colors[i], i * 57);
+      
+//      m_ghosts[1] = new Ghost (this, Thing.GHOST, 12, 14, false, Color.pink, 57);
+//      m_ghosts[2] = new Ghost (this, Thing.GHOST, 13, 14, true, Color.cyan, 114); 
+//      m_ghosts[3] = new Ghost (this, Thing.GHOST, 15, 14, false, Color.orange, 171); 
       // Fruit
 //      m_fruit = new Fruit (this, Thing.FRUIT, 13, 17, true);
       
@@ -194,11 +209,12 @@ public class GameModel
    }
    public void setPacmanDirection(byte direction)
    {
-	   m_player.m_direction = direction;
+//	   m_player.m_direction = direction;
+	   m_player.m_requestedDirection = direction;
    }
    public void setGhostDirection(int id, byte direction)
    {
-	   m_ghosts[id].m_direction = direction;
+	   m_ghosts[id].m_requestedDirection = direction;
    }
    public boolean isGameOver()
    {
@@ -242,10 +258,12 @@ public class GameModel
       m_things = new Thing [thingsLength];
       m_things[0] = m_player;
 //      m_things[1] = m_fruit;
-      m_things[1] = m_ghosts[0];
-      m_things[2] = m_ghosts[1];
-      m_things[3] = m_ghosts[2];
-      m_things[4] = m_ghosts[3];
+//      m_things[1] = m_ghosts[0];
+//      m_things[2] = m_ghosts[1];
+//      m_things[3] = m_ghosts[2];
+//      m_things[4] = m_ghosts[3];
+      for (int i = 0; i < numOfGhosts; ++i)
+        m_things[1 + i] = m_ghosts[i];
    }
    
    // Pause Pacman and Ghosts
@@ -476,6 +494,16 @@ public class GameModel
          m_things[i].returnToStart ();
       }
       setVisibleThings (false);
+   }
+   
+   public byte getPacmanDirection()
+   {
+     return m_player.m_direction;
+   }
+   
+   public byte getGhostDirection(int id)
+   {
+     return m_ghosts[id].m_direction;
    }
    
    

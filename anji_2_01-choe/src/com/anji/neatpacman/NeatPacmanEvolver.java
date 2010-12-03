@@ -8,7 +8,7 @@ public class NeatPacmanEvolver
   
   static
   {
-//    Debug.setEnable(DummyMaze.class, true);
+//    Debug.setEnable(PlayGround.class, true);
   }
 
   private Evolver playerEvolver;

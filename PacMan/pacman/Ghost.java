@@ -31,6 +31,8 @@ public class Ghost extends Thing
    boolean  m_bCanBackTrack      = false;  // Can ghost go back the direction they came
    boolean  m_bCanUseNextBest    = true;   // Can ghost try the next best direction first 25% of the time
    boolean  m_bInsaneAI          = false;   // No holds barred!
+   
+   byte m_requestedDirection = Thing.STILL;
       
    Ghost (GameModel gameModel, byte type, int startX, int startY, boolean bMiddle, Color color, int nTicks2Exit)
    {
@@ -113,7 +115,7 @@ public class Ghost extends Thing
       Polygon polygon;
       int ghostX = gameUI.m_gridInset + (int)(m_locX * gameUI.CELL_LENGTH - ghostHeadDiameter / 2.0 + gameUI.CELL_LENGTH / 2.0 + m_deltaLocX * (gameUI.CELL_LENGTH / (m_deltaMax * 2.0 - 1)));
       int ghostY = gameUI.m_gridInset + (int)(m_locY * gameUI.CELL_LENGTH - ghostHeadDiameter / 2.0 + gameUI.CELL_LENGTH / 2.0 + m_deltaLocY * (gameUI.CELL_LENGTH / (m_deltaMax * 2.0 - 1)));
-            if (Thing.DRAW)
+            if (m_gameModel.m_pacMan.isGuiEnabled())
       {      // If Pacman just ate this Ghost, draw the point worth of      // the ghost.
       if (m_nTicks2Popup > 0)      {
          g2.setColor (Color.cyan);         g2.setFont (m_gameModel.m_pacMan.m_gameUI.m_font);
@@ -404,79 +406,92 @@ public class Ghost extends Thing
       deltaX = m_locX - targetX;
       deltaY = m_locY - targetY;
       
-      if (Math.abs (deltaX) > Math.abs (deltaY))
+      if (m_requestedDirection == Thing.STILL)
       {
-         if (deltaX > 0)
-         {
-            bestDirection[0] = LEFT;
-            bestDirection[3] = RIGHT;
-            if (deltaY > 0)
-            {
-               bestDirection[1] = UP;
-               bestDirection[2] = DOWN;
-            } else {
-               bestDirection[1] = DOWN;
-               bestDirection[2] = UP;
-            }
-         } else {
-            bestDirection[0] = RIGHT;
-            bestDirection[3] = LEFT;
-            if (deltaY > 0)
-            {
-               bestDirection[1] = UP;
-               bestDirection[2] = DOWN;
-            } else {
-               bestDirection[1] = DOWN;
-               bestDirection[2] = UP;
-            }    
-         }
-      } else {
-         if (deltaY > 0)
-         {
-            bestDirection[0] = UP;
-            bestDirection[3] = DOWN;
-            if (deltaX > 0)
-            {
-               bestDirection[1] = LEFT;
-               bestDirection[2] = RIGHT;
-            } else {
-               bestDirection[1] = RIGHT;
-               bestDirection[2] = LEFT;
-            }    
+        // determine by the program
+        if (Math.abs (deltaX) > Math.abs (deltaY))
+        {
+           if (deltaX > 0)
+           {
+              bestDirection[0] = LEFT;
+              bestDirection[3] = RIGHT;
+              if (deltaY > 0)
+              {
+                 bestDirection[1] = UP;
+                 bestDirection[2] = DOWN;
+              } else {
+                 bestDirection[1] = DOWN;
+                 bestDirection[2] = UP;
+              }
+           } else {
+              bestDirection[0] = RIGHT;
+              bestDirection[3] = LEFT;
+              if (deltaY > 0)
+              {
+                 bestDirection[1] = UP;
+                 bestDirection[2] = DOWN;
+              } else {
+                 bestDirection[1] = DOWN;
+                 bestDirection[2] = UP;
+              }    
+           }
+        } else {
+           if (deltaY > 0)
+           {
+              bestDirection[0] = UP;
+              bestDirection[3] = DOWN;
+              if (deltaX > 0)
+              {
+                 bestDirection[1] = LEFT;
+                 bestDirection[2] = RIGHT;
+              } else {
+                 bestDirection[1] = RIGHT;
+                 bestDirection[2] = LEFT;
+              }    
+             
+           } else {
+              bestDirection[0] = DOWN;
+              bestDirection[3] = UP;
+              if (deltaX > 0)
+              {
+                 bestDirection[1] = LEFT;
+                 bestDirection[2] = RIGHT;
+              } else {
+                 bestDirection[1] = RIGHT;
+                 bestDirection[2] = LEFT;
+              }    
+           }
+        }
+        
+        // There's a 50% chance that the ghost will try the sub-optimal direction first.
+        // This will keep the ghosts from following each other and to trap Pacman.
+        // we want deterministic behaviors ... -- yin
+  //      if (!m_bInsaneAI && m_bCanUseNextBest && Math.random () < .50)
+  //      {  
+  //         byte temp = bestDirection[0];
+  //         bestDirection[0] = bestDirection[1];
+  //         bestDirection[1] = temp;
+  //      }
+                    
+        // If the ghost is fleeing and not eaten, then reverse the array of best directions to go.
+        if (bBackoff || (m_nTicks2Flee > 0 && !m_bEaten))
+        {
+           byte temp = bestDirection[0];
+           bestDirection[0] = bestDirection[3];
+           bestDirection[3] = temp;
            
-         } else {
-            bestDirection[0] = DOWN;
-            bestDirection[3] = UP;
-            if (deltaX > 0)
-            {
-               bestDirection[1] = LEFT;
-               bestDirection[2] = RIGHT;
-            } else {
-               bestDirection[1] = RIGHT;
-               bestDirection[2] = LEFT;
-            }    
-         }
+           temp = bestDirection[1];
+           bestDirection[1] = bestDirection[2];
+           bestDirection[2] = temp;
+        }
       }
-      
-      // There's a 50% chance that the ghost will try the sub-optimal direction first.
-      // This will keep the ghosts from following each other and to trap Pacman.
-      if (!m_bInsaneAI && m_bCanUseNextBest && Math.random () < .50)
-      {  
-         byte temp = bestDirection[0];
-         bestDirection[0] = bestDirection[1];
-         bestDirection[1] = temp;
-      }
-                  
-      // If the ghost is fleeing and not eaten, then reverse the array of best directions to go.
-      if (bBackoff || (m_nTicks2Flee > 0 && !m_bEaten))
+      else
       {
-         byte temp = bestDirection[0];
-         bestDirection[0] = bestDirection[3];
-         bestDirection[3] = temp;
-         
-         temp = bestDirection[1];
-         bestDirection[1] = bestDirection[2];
-         bestDirection[2] = temp;
+        // determine by external instruction
+        bestDirection[0] = m_requestedDirection;
+        bestDirection[1] = m_requestedDirection;
+        bestDirection[2] = m_requestedDirection;
+        bestDirection[3] = m_requestedDirection;
       }
             
       for (int i = 0; i < 4; i++)

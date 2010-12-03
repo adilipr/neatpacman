@@ -9,8 +9,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JFrame;
+
 import com.anji.neatpacman.ghosts.GhostsPlayer;
 import com.anji.neatpacman.player.PacmanPlayer;
+import com.anji.neatpacman.simulate.Simulator;
 import com.anji.tournament.PlayerResults;
 
 public class PlayGround extends Debug implements Runnable
@@ -106,33 +109,64 @@ public class PlayGround extends Debug implements Runnable
 
   private void playTheGame(PlayerResults player, PlayerResults ghosts)
   {
-    Maze maze = new DummyMaze();
+    int numOfGhosts = Config.get().getNumOfGhosts();
+    int ms = Config.get().getMilliSecBetweenTicks();
+    int maxTick = Config.get().getMaxTick();
+    
+//    Maze maze = new DummyMaze();
+    Maze maze = new Simulator();
 
-    while (!maze.isGameOver())
+    int n = 0;
+    while (n < maxTick && !maze.isGameOver())
     {
+      maze.tick();
+      n++;
+      
+      if (ms > 0)
+      {
+        try
+        {
+          Thread.sleep(ms);
+        }
+        catch (InterruptedException e)
+        {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+      }
+      
       GameState playerState = maze.getPacManState();
-      GameState[] ghostsStates = new GameState[Config.get().getNumOfGhosts()];
-      for (int i = 0; i < Config.get().getNumOfGhosts(); ++i)
+      GameState[] ghostsStates = new GameState[numOfGhosts];
+      for (int i = 0; i < numOfGhosts; ++i)
         ghostsStates[i] = maze.getGhostState(i);
 
       // feed input to NN, and get responses
       PacmanPlayer pl = (PacmanPlayer) player.getPlayer();
       GhostsPlayer gh = (GhostsPlayer) ghosts.getPlayer();
-      int playerMove = pl.move(playerState);
-      int[] ghostsMove = gh.move(ghostsStates);
+      byte playerMove = pl.move(playerState);
+      byte[] ghostsMove = gh.move(ghostsStates);
 
       maze.setPacManDirection(playerMove);
       debug("pacman moving direction: " + playerMove);
-      for (int i = 0; i < Config.get().getNumOfGhosts(); ++i)
+      for (int i = 0; i < numOfGhosts; ++i)
       {
         maze.setGhostDirection(i, ghostsMove[i]);
         debug("ghost[" + i + "] moving direction: " + ghostsMove[i]);
       }
-      maze.tick();
     }
 
     player.getResults().incrementRawScore(maze.getPacManScore());
     ghosts.getResults().incrementRawScore(maze.getGhostScore());
+    if (maze instanceof Simulator)
+    {
+      Simulator sim = (Simulator) maze;
+      JFrame fr = sim.frame;
+      if (fr != null)
+      {
+        fr.setVisible(false);
+        fr.dispose();
+      }
+    }
   }
 
   public void waitForDone()

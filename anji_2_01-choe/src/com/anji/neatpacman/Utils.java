@@ -1,5 +1,9 @@
 package com.anji.neatpacman;
 
+import java.util.Map;
+
+import pacman.Thing;
+
 public class Utils
 {
   
@@ -18,16 +22,22 @@ public class Utils
     return maxp;
   }
   
-  private static int[] directions = { Maze.UP, Maze.DOWN, Maze.LEFT, Maze.RIGHT };
+  private static byte[] directions = { Thing.UP, Thing.DOWN, Thing.LEFT, Thing.RIGHT };
   
-  public static int outputsToDirection(double[] outputs)
+  public static byte outputsToDirection(double[] outputs)
   {
     if (outputs.length != directions.length)
     {
       System.err.println("error in converting outputs to direction!");
-      return Maze.ERROR;
+      return Thing.STILL;
     }
     return directions[argmax(outputs)];
+  }
+  
+  public static <K, V> V mapUse(Map<K, V> map, K key, V defaultValue)
+  {
+    V t = map.get(key);
+    return t == null ? defaultValue : t;
   }
   
 }
