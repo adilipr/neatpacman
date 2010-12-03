@@ -4,7 +4,7 @@ import java.awt.*;
 // Pacman and Ghosts
 public class Thing
 {
-  public static boolean DRAW = false;
+  public static boolean DRAW = true;
   
    // Thing's next step is one of these constants
    static final byte STILL = 0;

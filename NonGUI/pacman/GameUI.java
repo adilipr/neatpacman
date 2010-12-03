@@ -570,7 +570,8 @@ public class GameUI extends Canvas
       }
       if ((gameCell & GameModel.GS_POWERUP) != 0)
       {
-         if ((m_gameModel.m_pacMan.m_globalTickCount % (1000 / m_pacMan.m_delay)) > (200 / m_pacMan.m_delay))
+//         if ((m_gameModel.m_pacMan.m_globalTickCount % (1000 / m_pacMan.m_delay)) > (200 / m_pacMan.m_delay))
+         if (m_gameModel.m_pacMan.m_globalTickCount % 28 > 5)
             g.setColor (Color.pink);
          else
             g.setColor (Color.black);

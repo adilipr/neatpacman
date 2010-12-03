@@ -18,9 +18,21 @@ public class PacMan extends Applet
    int            m_ticksPerSec;    // These two variables control game speed    int            m_delay;          // Milliseconds between ticks
 	
    Graph g;
+   
+   public PacMan()
+   {
+     this(35, true);
+   }
+   
+   public PacMan(int tickPerSec, boolean gui)
+   {
+     setTicksPerSec(tickPerSec);
+     Thing.DRAW = gui;
+   }
+   
    public void init ()
    {
-      setTicksPerSec (35);
+//      setTicksPerSec (35);
       
       // Create canvases and layout
       m_gameModel = new GameModel (this); 
@@ -67,7 +79,8 @@ public class PacMan extends Applet
       {//         m_soundMgr.stop ();
          m_gameModel.m_bIntroInited = false;         m_gameUI.m_bShowIntro = false;         m_gameUI.m_bShowAbout = true;
          m_gameUI.m_bRedrawAll = true;
-         m_gameModel.m_nTicks2AboutShow++;         if (m_gameModel.m_nTicks2AboutShow == 15000 / m_delay)
+         m_gameModel.m_nTicks2AboutShow++;//         if (m_gameModel.m_nTicks2AboutShow == 15000 / m_delay)
+         if (m_gameModel.m_nTicks2AboutShow == 428)
          {            m_gameModel.m_state = GameModel.STATE_INTRO;            m_gameModel.m_nTicks2AboutShow = 0;         }
          
       } else if (m_gameModel.m_state == GameModel.STATE_INTRO)      {
@@ -87,7 +100,7 @@ public class PacMan extends Applet
             }            }
          
          m_gameModel.m_nTicks2GameOver++;         
-         // After 3 seconds go to the intro page         if (m_gameModel.m_nTicks2GameOver == 3000 / m_delay)         {
+         // After 3 seconds go to the intro page//         if (m_gameModel.m_nTicks2GameOver == 3000 / m_delay)         if (m_gameModel.m_nTicks2GameOver == 85)         {
             m_gameModel.m_state = GameModel.STATE_INTRO;            m_gameModel.m_nTicks2GameOver = 0;
          }
                   m_gameUI.m_bDrawGameOver = true;         m_gameUI.m_bRedrawAll = true;
@@ -478,13 +491,24 @@ public class PacMan extends Applet
    /* Can't run Pacman as an application since it use sound-related methods. */
    public static void main (String args[])
    {
+     System.out.println("optional args: <tick-per-second> <if-show-gui>");
+     
+     int tickPerSec = 35;
+     boolean gui = true;
+     
+     if (args.length == 2)
+     {
+       tickPerSec = Integer.parseInt(args[0]);
+       gui = Boolean.parseBoolean(args[1]);
+     }
+     
       // Create new window
      MainFrame frame = null;
       if (Thing.DRAW)
         frame = new MainFrame ("PacMan");
       
       // Create PacMan instance
-      PacMan pacMan = new PacMan ();
+      PacMan pacMan = new PacMan (tickPerSec, gui);
       
       // Initialize instance
       pacMan.init ();
