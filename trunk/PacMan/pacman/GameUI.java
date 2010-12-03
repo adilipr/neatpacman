@@ -29,7 +29,7 @@ public class GameUI extends Canvas
    Font        m_font;              // Font for Ghost points string and About page   Font        m_readyFont;         // Font for "Ready", "GameOver" and "Paused" strings   Font        m_readyFontItalic;   // Font for "!!" bang in Ready string
    boolean     m_bRedrawAll = false;   // Set to true to tell Update to Paint
    boolean     m_bDrawReady = false;   int         m_gridInset;         // Starting painting the maze with this offset   boolean     m_bFlipWallColor  = false;   boolean     m_bDrawGameOver   = false;   boolean     m_bDrawPaused     = false;   boolean     m_bShowAbout      = false;   Image       m_imagePacman;       // One and only image of "Pac-Man" banner with litte guy
-      // Variables associated with the intro page   boolean     m_bShowIntro      = true;   
+      // Variables associated with the intro page   boolean     m_bShowIntro      = false;   
    
    GameUI (PacMan pacMan, GameModel gameModel, int width, int height) 
    {      super ();
@@ -570,7 +570,8 @@ public class GameUI extends Canvas
       }
       if ((gameCell & GameModel.GS_POWERUP) != 0)
       {
-         if ((m_gameModel.m_pacMan.m_globalTickCount % (1000 / m_pacMan.m_delay)) > (200 / m_pacMan.m_delay))
+//         if ((m_gameModel.m_pacMan.m_globalTickCount % (1000 / m_pacMan.m_delay)) > (200 / m_pacMan.m_delay))
+         if (m_gameModel.m_pacMan.m_globalTickCount % 28 > 5)
             g.setColor (Color.pink);
          else
             g.setColor (Color.black);
