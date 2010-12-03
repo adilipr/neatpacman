@@ -23,8 +23,10 @@ public class Simulator implements Maze
 	private GameState pacmanGameState;
 	private GameState ghostGameState;
 	GameModel gamemodel;
-	PacMan pacman;
+	private PacMan pacman;
 	int [][] m_gamestate;
+	ArrayList<String> listHideOut;
+	public static int UnreachableDist = 9999; 
 	public Simulator()
 	{
 		mapStrInt=new HashMap<String,Integer>();
@@ -35,6 +37,7 @@ public class Simulator implements Maze
 		ghostGameState = new GameState();
 		pacman = new PacMan();
 		gamemodel =new GameModel(pacman);
+		listHideOut = new ArrayList<String>();
 		//read all pair shortest distances
 		File f=new File("distances.txt");
 		String delimiter = " ";
@@ -86,11 +89,17 @@ public class Simulator implements Maze
 			e.printStackTrace();
 		}
 		//add list of powerpill locations
-		listPowerPills.add("(1,3");
-		listPowerPills.add("(1,23");
-		listPowerPills.add("(26,3");
-		listPowerPills.add("(26,23");
+		listPowerPills.add("(1,3)");
+		listPowerPills.add("(1,23)");
+		listPowerPills.add("(26,3)");
+		listPowerPills.add("(26,23)");
+		//list of HideOut locations
+		listHideOut.add("(12,14)");
+		listHideOut.add("(13,14)");
+		listHideOut.add("(14,14)");
+		listHideOut.add("(15,14)");
 		//gamestate
+		gamemodel.loadPacManMaze();
 		m_gamestate = gamemodel.getGameState();
 		
 	    pacmanGameState.distGhosts = new double[4];
@@ -124,7 +133,8 @@ public class Simulator implements Maze
 	//order UP,DOWN,LEFT,RIGHT
 	public double[] distNearestWall(int x,int y)
 	{
-		double[] distances = new double[4];
+		//double[] distances = new double[4];
+		double[] distances = {1,1,1,1};
 		//UP
 		for(int j=y;j>=0;j--)
 		{
@@ -132,6 +142,8 @@ public class Simulator implements Maze
 			{
 				distances[0]++;
 			}
+			else
+				break;
 		}
 		//DOWN
 		for(int j=y;j<31;j++)
@@ -140,6 +152,8 @@ public class Simulator implements Maze
 			{
 				distances[1]++;
 			}
+			else
+				break;
 		}
 		//LEFT
 		for(int i=x;i>=0;i--)
@@ -148,6 +162,8 @@ public class Simulator implements Maze
 			{
 				distances[2]++;
 			}
+			else
+				break;
 			if(i==0 && y==14)
 			{
 				i=28;
@@ -160,6 +176,8 @@ public class Simulator implements Maze
 			{
 				distances[3]++;
 			}
+			else
+				break;
 			//to handle special case- opening in maze
 			if(i==27 && y==14)
 			{
@@ -355,7 +373,10 @@ public class Simulator implements Maze
 		for(int i=0;i<4;i++)
 		{
 			locGhost=gamemodel.getGhostloc(i);
-			pacmanGameState.distGhosts[i]=mapStrInt.get(locGhost);
+			if(!listHideOut.contains(locGhost))
+				pacmanGameState.distGhosts[i]=mapStrInt.get(locGhost);
+			else
+				pacmanGameState.distGhosts[i] = UnreachableDist;
 		}
 		//distances to junctions
 		for(int i=0;i<listJunctions.size();i++)
@@ -374,7 +395,10 @@ public class Simulator implements Maze
 		for(int i=0;i<4;i++)
 		{
 			String lastlocGhost=gamemodel.getGhostlastloc(i);
-			pacmanGameState.distGhosts[i]=mapStrInt.get(lastlocGhost);
+			if(!listHideOut.contains(lastlocGhost))
+				pacmanGameState.deltaDistGhosts[i]=mapStrInt.get(lastlocGhost);
+			else
+				pacmanGameState.deltaDistGhosts[i] = UnreachableDist;
 		}
 		for(int i=0;i<listJunctions.size();i++)
 		{
@@ -499,5 +523,9 @@ public class Simulator implements Maze
 	{
 		Simulator s=new Simulator();
 		int i=0;
+		GameState g = new GameState();
+		g=s.getPacManState();
+		g=s.getGhostState(0);
+		
 	}
 }
