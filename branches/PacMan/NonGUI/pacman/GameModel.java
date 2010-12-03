@@ -105,9 +105,9 @@ public class GameModel
       m_player = new Player (this, Thing.PACMAN, 13, 23, true);
       m_ghosts = new Ghost[4];
       m_ghosts[0] = new Ghost (this, Thing.GHOST, 13, 11, true, Color.red, 0);
-      m_ghosts[1] = new Ghost (this, Thing.GHOST, 12, 14, false, Color.pink, 2000);
-      m_ghosts[2] = new Ghost (this, Thing.GHOST, 13, 14, true, Color.cyan, 4000); 
-      m_ghosts[3] = new Ghost (this, Thing.GHOST, 15, 14, false, Color.orange, 6000); 
+      m_ghosts[1] = new Ghost (this, Thing.GHOST, 12, 14, false, Color.pink, 57);
+      m_ghosts[2] = new Ghost (this, Thing.GHOST, 13, 14, true, Color.cyan, 114); 
+      m_ghosts[3] = new Ghost (this, Thing.GHOST, 15, 14, false, Color.orange, 171); 
       // Fruit
 //      m_fruit = new Fruit (this, Thing.FRUIT, 13, 17, true);
       
@@ -278,13 +278,14 @@ public class GameModel
       else
          ticksPerSecond = 35 + (m_stage - 1) * 3;
       
-      m_pacMan.setTicksPerSec (ticksPerSecond);
+//      m_pacMan.setTicksPerSec (ticksPerSecond);
       
       // Decrease the blue ghost time up to the last board
-      if (m_stage > 10)
-         m_nTicksPowerup = 1000 / m_pacMan.m_delay;
-      else
-         m_nTicksPowerup = (10000 - (m_stage - 1) * 1000) / m_pacMan.m_delay;
+//      if (m_stage > 10)
+//         m_nTicksPowerup = 1000 / m_pacMan.m_delay;
+//      else
+//         m_nTicksPowerup = (10000 - (m_stage - 1) * 1000) / m_pacMan.m_delay;
+      m_nTicksPowerup = 28;
          
       // Put Things back to start location
       for (int i = 0; i < m_things.length; i++)
@@ -303,7 +304,8 @@ public class GameModel
 //      m_fruit.m_nTicks2Show = 15000 / m_pacMan.m_delay;
      
       // Recalculate the back off time of the ghost
-      m_nTicks2Backoff = 20000 / m_pacMan.m_delay;
+//      m_nTicks2Backoff = 20000 / m_pacMan.m_delay;
+      m_nTicks2Backoff = 571;
    
    }
    

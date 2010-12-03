@@ -13,8 +13,11 @@ public class Ghost extends Thing
    int      m_destinationX;
    int      m_destinationY;
    Color    m_color;
+   
+   int m_origNTicks2Exit; // original value of m_nTicks2Exit -- yin
+   
    int      m_nTicks2Exit;       // Ticks before ghost is allowed to exit.
-   int      m_nExitMilliSec;     // Milliseconds before exiting.
+//   int      m_nExitMilliSec;     // Milliseconds before exiting.
    int      m_nTicks2Flee = 0;   // How long the Ghost will run from Pacman
    boolean  m_bEaten = false;    // Set to true when Pacman has eaten this ghost
    int      m_ghostDeltaMax = 4; // Should never change
@@ -29,7 +32,7 @@ public class Ghost extends Thing
    boolean  m_bCanUseNextBest    = true;   // Can ghost try the next best direction first 25% of the time
    boolean  m_bInsaneAI          = false;   // No holds barred!
       
-   Ghost (GameModel gameModel, byte type, int startX, int startY, boolean bMiddle, Color color, int nExitMilliSec)
+   Ghost (GameModel gameModel, byte type, int startX, int startY, boolean bMiddle, Color color, int nTicks2Exit)
    {
       super (gameModel, type, startX, startY, bMiddle);
       m_deltaMax = m_ghostDeltaMax;
@@ -37,8 +40,8 @@ public class Ghost extends Thing
       m_destinationY = -1;
       m_color = color;
       m_bInsideRoom = true;
-      m_nExitMilliSec = nExitMilliSec;
-      m_nTicks2Exit = m_nExitMilliSec / gameModel.m_pacMan.m_delay;
+      m_origNTicks2Exit = nTicks2Exit;
+      m_nTicks2Exit = nTicks2Exit;
    }
    
    // Overriden to draw Ghosts
@@ -115,7 +118,8 @@ public class Ghost extends Thing
       {         g2.setColor (m_color);
          
       } else {         // Check if the Powerup is almost out for this ghost,         // if so, flash white.
-         if (m_nTicks2Flee < 2000 / m_gameModel.m_pacMan.m_delay && (m_nTicks2Flee % (200 / m_gameModel.m_pacMan.m_delay)) < (100 / m_gameModel.m_pacMan.m_delay))
+//         if (m_nTicks2Flee < 2000 / m_gameModel.m_pacMan.m_delay && (m_nTicks2Flee % (200 / m_gameModel.m_pacMan.m_delay)) < (100 / m_gameModel.m_pacMan.m_delay))
+         if (m_nTicks2Flee < 57 && m_nTicks2Flee % 5 < 2)
             g2.setColor (m_color.white);
          else            g2.setColor (m_color.blue);
       }            // If the ghost is eaten, then do not draw the body      if (!m_bEaten)      {
@@ -272,7 +276,8 @@ public class Ghost extends Thing
          m_destinationX = -1;
          m_destinationY = -1;
          m_direction = STILL;
-         m_nTicks2Exit = 3000 / m_gameModel.m_pacMan.m_delay;
+//         m_nTicks2Exit = 3000 / m_gameModel.m_pacMan.m_delay;
+         m_nTicks2Exit = 85;
          m_bEnteringDoor = false;
          m_bEaten = false;
          return;
@@ -620,7 +625,8 @@ public class Ghost extends Thing
             m_deltaMax = 2;
             // Pause the game to display the points for eating this ghost.
             m_gameModel.setPausedGame (true);
-            m_nTicks2Popup = 500 / m_gameModel.m_pacMan.m_delay; 
+//            m_nTicks2Popup = 500 / m_gameModel.m_pacMan.m_delay; 
+            m_nTicks2Popup = 14;
             player.setVisible (false);
             return 1;
          }
@@ -641,7 +647,7 @@ public class Ghost extends Thing
       else
          m_bInsideRoom = true;
       
-      m_nTicks2Exit = m_nExitMilliSec / m_gameModel.m_pacMan.m_delay;
+      m_nTicks2Exit = m_origNTicks2Exit;
       m_deltaMax = m_ghostDeltaMax;
       m_nTicks2Flee = 0;  
       m_bEaten = false;
