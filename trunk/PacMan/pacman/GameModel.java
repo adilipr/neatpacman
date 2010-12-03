@@ -129,36 +129,60 @@ public class GameModel
    public String getPlayerloc()
    {
 	   String res;
-	   res="("+Integer.toString(m_player.m_locX)+","+Integer.toString(m_player.m_locY)+")";
+	   if(m_player.m_locX!=-1)
+		   res="("+Integer.toString(m_player.m_locX)+","+Integer.toString(m_player.m_locY)+")";
+	   else
+		   res="("+Integer.toString(m_player.m_startX)+","+Integer.toString(m_player.m_startY)+")";
 	   return res;
    }
    public String getPlayerlastloc()
    {
-	   return "("+Integer.toString(m_player.m_lastLocX)+","+Integer.toString(m_player.m_lastLocY)+")";
+	   if(m_player.m_lastLocX!=-1)
+		   return "("+Integer.toString(m_player.m_lastLocX)+","+Integer.toString(m_player.m_lastLocY)+")";
+	   else
+		   return "("+Integer.toString(m_player.m_startX)+","+Integer.toString(m_player.m_startY)+")";
    }
    public String getGhostloc(int id)
    {
-	   return "("+Integer.toString(m_ghosts[id].m_locX)+","+Integer.toString(m_ghosts[id].m_locY)+")";
+	   if(m_ghosts[id].m_locX!=-1)
+		   return "("+Integer.toString(m_ghosts[id].m_locX)+","+Integer.toString(m_ghosts[id].m_locY)+")";
+	   else
+		   return "("+Integer.toString(m_ghosts[id].m_startX)+","+Integer.toString(m_ghosts[id].m_startY)+")";
    }
    public String getGhostlastloc(int id)
    {
-	   return "("+Integer.toString(m_ghosts[id].m_lastLocX)+","+Integer.toString(m_ghosts[id].m_lastLocY)+")";
+	   if(m_ghosts[id].m_lastLocX!=-1)
+		   return "("+Integer.toString(m_ghosts[id].m_lastLocX)+","+Integer.toString(m_ghosts[id].m_lastLocY)+")";
+	   else
+		   return "("+Integer.toString(m_ghosts[id].m_startX)+","+Integer.toString(m_ghosts[id].m_startY)+")";
    }
    public int getPlayerX()
    {
-	   return m_player.m_locX;
+	   if(m_player.m_locX != -1)
+		   return m_player.m_locX;
+	   else
+		   return m_player.m_startX;
    }
    public int getPlayerY()
    {
-	   return m_player.m_locY;
+	   if(m_player.m_locY != -1)
+		   return m_player.m_locY;
+	   else
+		   return m_player.m_startY;
    }
    public int getGhostX(int id)
    {
-	   return m_ghosts[id].m_locX;
+	   if(m_ghosts[id].m_locX != -1)
+		   return m_ghosts[id].m_locX;
+	   else
+		   return m_ghosts[id].m_startX;
    }
    public int getGhostY(int id)
    {
-	   return m_ghosts[id].m_locY;
+	   if(m_ghosts[id].m_locY != -1)
+		   return m_ghosts[id].m_locY;
+	   else
+		   return m_ghosts[id].m_startY;
    }
    static public boolean hasFood(int gameState)
    {
