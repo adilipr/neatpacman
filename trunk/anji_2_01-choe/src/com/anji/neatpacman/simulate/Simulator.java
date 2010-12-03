@@ -33,6 +33,7 @@ public class Simulator implements Maze
 		mapDistances=new HashMap<String,HashMap<String,Integer>>();
 		listJunctions=new ArrayList<String>();
 		listPowerPills = new ArrayList<String>();
+		listHideOut = new ArrayList<String>();
 		
 		//read all pair shortest distances
 		File f=new File("distances.txt");
