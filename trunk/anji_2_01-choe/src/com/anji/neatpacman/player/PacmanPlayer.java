@@ -27,7 +27,7 @@ public class PacmanPlayer implements Player
     activator.reset();
   }
   
-  public int move(GameState playerState)
+  public byte move(GameState playerState)
   {
     double[] inputs = playerState.getValues(1.0); // 1.0 is bias
     double[] outputs = activator.next(inputs);

@@ -27,9 +27,9 @@ public class GhostsPlayer implements Player
     activator.reset();
   }
 
-  public int[] move(GameState[] ghostsStates)
+  public byte[] move(GameState[] ghostsStates)
   {
-    int[] rst = new int[ghostsStates.length];
+    byte[] rst = new byte[ghostsStates.length];
     
     for (int i = 0; i < ghostsStates.length; ++i)
     {

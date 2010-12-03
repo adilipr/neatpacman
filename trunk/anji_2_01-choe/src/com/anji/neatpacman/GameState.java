@@ -6,17 +6,18 @@ import java.util.List;
 /**
  * this class is not thread safe.
  * 
- * should be re-used in the same game playing to reduce unnecessary object creation.
+ * should be re-used in the same game playing to reduce unnecessary object
+ * creation.
  * 
  * @author quyin
  * 
  */
 public class GameState
 {
-  
-  // total number of inputs: 17 + 4G + 2J + 2P
+
+  // total number of inputs: 17 + 6G + 2J + 2P
   // G = # ghosts, J = # junctions, P = # power pills
-  
+
   // distances to pacman / ghosts / junctions / pills
   public double   distPacMan;
 
@@ -44,6 +45,11 @@ public class GameState
 
   public double[] yGhosts;
 
+  // current direction
+  public double   pacmanDirection;
+
+  public double[] ghostsDirection;
+
   // distances to nearest wall / junction / dot / pill, in 4 directions
   public double[] distsNearestWall;
 
@@ -53,9 +59,28 @@ public class GameState
 
   // is a ghost affected by power pill? yes - 1.0, no - 0.0
   public double[] isGhostAffected;
+
+  public GameState(int nGhosts, int nJunctions, int nPowerPills)
+  {
+	    distGhosts = new double[nGhosts];
+	    distJunctions = new double[nJunctions];
+	    distPowerPills = new double[nPowerPills];
+	    deltaDistGhosts = new double[nGhosts];
+	    deltaDistJunctions = new double[nJunctions];
+	    deltaDistPowerPills = new double[nPowerPills];
+	    xGhosts = new double[nGhosts];
+	    yGhosts = new double[nGhosts];
+	    ghostsDirection = new double[nGhosts];
+	    distsNearestDot = new double[4];
+	    distsNearestJunction = new double[4];
+	    distsNearestWall = new double[4];
+	    //distsPowerPill = new double[4];
+	    isGhostAffected = new double[nGhosts];
+  }
   
   /**
-   * no cache / lazy evaluation, since this object may be re-used to reduce memory consumption.
+   * no cache / lazy evaluation, since this object may be re-used to reduce
+   * memory consumption.
    * 
    * @return
    */
@@ -69,7 +94,7 @@ public class GameState
     }
     return values;
   }
-  
+
   public double[] getValues(double bias)
   {
     List<Double> vs = getVs();
@@ -97,6 +122,8 @@ public class GameState
     vs.add(yPacMan);
     vs.addAll(asList(xGhosts));
     vs.addAll(asList(yGhosts));
+    vs.add(pacmanDirection);
+    vs.addAll(asList(ghostsDirection));
     vs.addAll(asList(distsNearestWall));
     vs.addAll(asList(distsNearestJunction));
     vs.addAll(asList(distsNearestDot));

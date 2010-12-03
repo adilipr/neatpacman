@@ -8,7 +8,13 @@ import java.lang.Math;
 public class PacMan extends Applet
 {
    GameModel      m_gameModel;
-   TopCanvas      m_topCanvas;
+   
+  public GameModel getGameModel()
+  {
+    return m_gameModel;
+  }
+
+  TopCanvas      m_topCanvas;
    BottomCanvas   m_bottomCanvas;
    GameUI         m_gameUI;
    Ticker         m_ticker;      // Used to update the game state and UI
@@ -19,15 +25,24 @@ public class PacMan extends Applet
 	
    Graph g;
    
+   private boolean guiEnabled;
+   
+   public boolean isGuiEnabled()
+  {
+    return guiEnabled;
+  }
+
+  private int numOfGhosts;
+   
    public PacMan()
    {
-     this(35, true);
+     this(true, 4);
    }
    
-   public PacMan(int tickPerSec, boolean gui)
+   public PacMan(boolean guiEnabled, int numOfGhosts)
    {
-     setTicksPerSec(tickPerSec);
-     Thing.DRAW = gui;
+     this.guiEnabled = guiEnabled;
+     this.numOfGhosts = numOfGhosts;
    }
    
    public void init ()
@@ -35,41 +50,39 @@ public class PacMan extends Applet
 //      setTicksPerSec (35);
       
       // Create canvases and layout
-      m_gameModel = new GameModel (this); 
+      m_gameModel = new GameModel (this, numOfGhosts); 
       m_gameUI = new GameUI (this, m_gameModel, 409, 450);
       m_topCanvas = new TopCanvas (m_gameModel, 200, 200);
       m_bottomCanvas = new BottomCanvas (this, m_gameModel, 200, 250);
       
-      if (Thing.DRAW)
+      if (guiEnabled)
       {
-      GridBagLayout gridBag = new GridBagLayout ();
-      GridBagConstraints c = new GridBagConstraints ();
-      
-      setLayout (gridBag);
-            
-      c.gridwidth = 1;
-      c.gridheight = 3;
-      
-      gridBag.setConstraints (m_gameUI, c);
-      add (m_gameUI);
-      
-      c.gridwidth = GridBagConstraints.REMAINDER;
-      c.gridheight = 1;
-      gridBag.setConstraints (m_topCanvas, c);
-      add (m_topCanvas);
-      
-      gridBag.setConstraints (m_bottomCanvas, c);
-      add (m_bottomCanvas);
-      
-      requestFocus ();      // Add event subscribers
-      addKeyListener (new pacManKeyAdapter(this));
-                
-      validate ();
-//      m_soundMgr = new SoundManager (this, getCodeBase ());
-//      m_soundMgr.loadSoundClips ();
-      
+        GridBagLayout gridBag = new GridBagLayout ();
+        GridBagConstraints c = new GridBagConstraints ();
+        
+        setLayout (gridBag);
+              
+        c.gridwidth = 1;
+        c.gridheight = 3;
+        
+        gridBag.setConstraints (m_gameUI, c);
+        add (m_gameUI);
+        
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        c.gridheight = 1;
+        gridBag.setConstraints (m_topCanvas, c);
+        add (m_topCanvas);
+        
+        gridBag.setConstraints (m_bottomCanvas, c);
+        add (m_bottomCanvas);
+        
+//        requestFocus ();        // Add event subscribers
+        addKeyListener (new pacManKeyAdapter(this));
+                  
+        validate ();
+  //      m_soundMgr = new SoundManager (this, getCodeBase ());
+  //      m_soundMgr.loadSoundClips ();
       }
-      
    }
    
    // Master ticker that runs various parts of the game   // based on the GameModel's STATE
@@ -127,7 +140,7 @@ public class PacMan extends Applet
         System.out.println("game over: pacman lost.");
         stop();      }
             
-      if (Thing.DRAW)
+      if (guiEnabled)
       {
         m_gameUI.repaint();          m_topCanvas.repaint ();
       }
@@ -239,7 +252,8 @@ public class PacMan extends Applet
       
       m_gameModel.m_nTicks2BeginPlay++;
       
-      if (m_gameModel.m_nTicks2BeginPlay == 500 / m_delay)
+//      if (m_gameModel.m_nTicks2BeginPlay == 500 / m_delay)
+      if (m_gameModel.m_nTicks2BeginPlay == 14)
       {
          m_gameModel.setVisibleThings (true);
 //         m_gameModel.m_fruit.setVisible (false);
@@ -247,7 +261,8 @@ public class PacMan extends Applet
       
 //      if ((m_gameModel.m_nTicks2BeginPlay == SoundManager.SOUND_START_LENGTH / m_delay && !m_gameModel.m_bStartClipPlayed) ||
       if ((!m_gameModel.m_bStartClipPlayed) ||
-          (m_gameModel.m_nTicks2BeginPlay == 1000 / m_delay && m_gameModel.m_bStartClipPlayed))
+//          (m_gameModel.m_nTicks2BeginPlay == 1000 / m_delay && m_gameModel.m_bStartClipPlayed))
+          (m_gameModel.m_nTicks2BeginPlay == 28 && m_gameModel.m_bStartClipPlayed))
       {
          m_gameModel.m_state = GameModel.STATE_PLAYING;
          m_gameModel.setVisibleThings (true);
@@ -491,29 +506,31 @@ public class PacMan extends Applet
    /* Can't run Pacman as an application since it use sound-related methods. */
    public static void main (String args[])
    {
-     System.out.println("optional args: <tick-per-second> <if-show-gui>");
+     System.out.println("optional args: <tick-per-second> <if-show-gui> <num-of-ghosts>");
      
      int tickPerSec = 35;
      boolean gui = true;
+     int numOfGhosts = 4;
      
-     if (args.length == 2)
+     if (args.length == 3)
      {
        tickPerSec = Integer.parseInt(args[0]);
        gui = Boolean.parseBoolean(args[1]);
+       numOfGhosts = Integer.parseInt(args[2]);
      }
      
       // Create new window
      MainFrame frame = null;
-      if (Thing.DRAW)
+      if (gui)
         frame = new MainFrame ("PacMan");
       
       // Create PacMan instance
-      PacMan pacMan = new PacMan (tickPerSec, gui);
+      PacMan pacMan = new PacMan (gui, numOfGhosts);
       
       // Initialize instance
       pacMan.init ();
       
-      if (Thing.DRAW)
+      if (gui)
       {
         frame.add ("Center", pacMan);
         frame.pack ();

@@ -1,5 +1,7 @@
 package com.anji.neatpacman;
 
+import pacman.Thing;
+
 /**
  * this implements a simple dummy maze for testing. the maze will be a 5x5
  * field. there is one pacman at (1,1), one ghost at (3,3) and one power pill at
@@ -33,13 +35,13 @@ public class DummyMaze extends Debug implements Maze
 
   private double           pacmanY             = 0;
 
-  private int              pacmanDirection     = Maze.RIGHT;
+  private byte              pacmanDirection     = Thing.RIGHT;
 
   private double           ghostX              = 2;
 
   private double           ghostY              = 2;
 
-  private int              ghostDirection      = Maze.UP;
+  private byte              ghostDirection      = Thing.UP;
 
   private boolean          powerPillStillThere = true;
 
@@ -50,42 +52,13 @@ public class DummyMaze extends Debug implements Maze
   // highest score for pacman: 10 * 22 + 50 * 1 + 200 * 1 = 470
   private int              score               = 0;
 
-  private GameState        pacmanState         = new GameState();
+  private GameState        pacmanState         = new GameState(1, 0, 1);
 
-  private GameState        ghostState          = new GameState();
+  private GameState        ghostState          = new GameState(1, 0, 1);
 
   private boolean          gameOver            = false;
 
   private int              tickCount           = 0;
-
-  public DummyMaze()
-  {
-    pacmanState.distGhosts = new double[1];
-    pacmanState.distJunctions = new double[0];
-    pacmanState.distPowerPills = new double[1];
-    pacmanState.deltaDistGhosts = new double[1];
-    pacmanState.deltaDistJunctions = new double[0];
-    pacmanState.deltaDistPowerPills = new double[1];
-    pacmanState.xGhosts = new double[1];
-    pacmanState.yGhosts = new double[1];
-    pacmanState.distsNearestDot = new double[4];
-    pacmanState.distsNearestJunction = new double[4];
-    pacmanState.distsNearestWall = new double[4];
-    pacmanState.isGhostAffected = new double[1];
-
-    ghostState.distGhosts = new double[1];
-    ghostState.distJunctions = new double[0];
-    ghostState.distPowerPills = new double[1];
-    ghostState.deltaDistGhosts = new double[1];
-    ghostState.deltaDistJunctions = new double[0];
-    ghostState.deltaDistPowerPills = new double[1];
-    ghostState.xGhosts = new double[1];
-    ghostState.yGhosts = new double[1];
-    ghostState.distsNearestDot = new double[4];
-    ghostState.distsNearestJunction = new double[4];
-    ghostState.distsNearestWall = new double[4];
-    ghostState.isGhostAffected = new double[1];
-  }
 
   @Override
   public GameState getPacManState()
@@ -106,11 +79,14 @@ public class DummyMaze extends Debug implements Maze
     pacmanState.yPacMan = 0;
     pacmanState.xGhosts[0] = ghostX - pacmanX;
     pacmanState.yGhosts[0] = ghostY - pacmanY;
+    
+    pacmanState.pacmanDirection = pacmanDirection;
+    pacmanState.ghostsDirection[0] = ghostDirection;
 
-    pacmanState.distsNearestDot[0] = distNearest(pacmanX, pacmanY, Maze.UP, 1);
-    pacmanState.distsNearestDot[1] = distNearest(pacmanX, pacmanY, Maze.DOWN, 1);
-    pacmanState.distsNearestDot[2] = distNearest(pacmanX, pacmanY, Maze.LEFT, 1);
-    pacmanState.distsNearestDot[3] = distNearest(pacmanX, pacmanY, Maze.RIGHT, 1);
+    pacmanState.distsNearestDot[0] = distNearest(pacmanX, pacmanY, Thing.UP, 1);
+    pacmanState.distsNearestDot[1] = distNearest(pacmanX, pacmanY, Thing.DOWN, 1);
+    pacmanState.distsNearestDot[2] = distNearest(pacmanX, pacmanY, Thing.LEFT, 1);
+    pacmanState.distsNearestDot[3] = distNearest(pacmanX, pacmanY, Thing.RIGHT, 1);
 
     pacmanState.distsNearestJunction[0] = Config.get().getInfDistance();
     pacmanState.distsNearestJunction[1] = Config.get().getInfDistance();
@@ -147,10 +123,13 @@ public class DummyMaze extends Debug implements Maze
     ghostState.xGhosts[0] = 0;
     ghostState.yGhosts[0] = 0;
 
-    ghostState.distsNearestDot[0] = distNearest(ghostX, ghostY, Maze.UP, 1);
-    ghostState.distsNearestDot[1] = distNearest(ghostX, ghostY, Maze.DOWN, 1);
-    ghostState.distsNearestDot[2] = distNearest(ghostX, ghostY, Maze.LEFT, 1);
-    ghostState.distsNearestDot[3] = distNearest(ghostX, ghostY, Maze.RIGHT, 1);
+    pacmanState.pacmanDirection = pacmanDirection;
+    pacmanState.ghostsDirection[0] = ghostDirection;
+
+    ghostState.distsNearestDot[0] = distNearest(ghostX, ghostY, Thing.UP, 1);
+    ghostState.distsNearestDot[1] = distNearest(ghostX, ghostY, Thing.DOWN, 1);
+    ghostState.distsNearestDot[2] = distNearest(ghostX, ghostY, Thing.LEFT, 1);
+    ghostState.distsNearestDot[3] = distNearest(ghostX, ghostY, Thing.RIGHT, 1);
 
     ghostState.distsNearestJunction[0] = Config.get().getInfDistance();
     ghostState.distsNearestJunction[1] = Config.get().getInfDistance();
@@ -233,14 +212,14 @@ public class DummyMaze extends Debug implements Maze
   }
 
   @Override
-  public void setPacManDirection(int direction)
+  public void setPacManDirection(byte direction)
   {
     pacmanDirection = direction;
     debug("pacman direction: " + direction);
   }
 
   @Override
-  public void setGhostDirection(int id, int direction)
+  public void setGhostDirection(int id, byte direction)
   {
     ghostDirection = direction;
     debug("ghost direction: " + direction);
@@ -270,7 +249,7 @@ public class DummyMaze extends Debug implements Maze
 
     switch (direction)
     {
-    case Maze.UP:
+    case Thing.UP:
       i = (int) Math.round(x);
       j = (int) Math.floor(y);
       while (j > 0)
@@ -280,7 +259,7 @@ public class DummyMaze extends Debug implements Maze
         j--;
       }
       break;
-    case Maze.DOWN:
+    case Thing.DOWN:
       i = (int) Math.round(x);
       j = (int) Math.ceil(y);
       while (j < 5)
@@ -290,7 +269,7 @@ public class DummyMaze extends Debug implements Maze
         j++;
       }
       break;
-    case Maze.LEFT:
+    case Thing.LEFT:
       i = (int) Math.floor(x);
       j = (int) Math.round(y);
       while (i >= 0)
@@ -300,7 +279,7 @@ public class DummyMaze extends Debug implements Maze
         i--;
       }
       break;
-    case Maze.RIGHT:
+    case Thing.RIGHT:
       i = (int) Math.ceil(x);
       j = (int) Math.round(y);
       while (i < 5)
@@ -319,11 +298,11 @@ public class DummyMaze extends Debug implements Maze
   {
     switch (direction)
     {
-    case Maze.LEFT:
+    case Thing.LEFT:
       if (x - step >= 0)
         return x - step;
       break;
-    case Maze.RIGHT:
+    case Thing.RIGHT:
       if (x + step <= 4)
         return x + step;
       break;
@@ -335,11 +314,11 @@ public class DummyMaze extends Debug implements Maze
   {
     switch (direction)
     {
-    case Maze.UP:
+    case Thing.UP:
       if (y - step >= 0)
         return y - step;
       break;
-    case Maze.DOWN:
+    case Thing.DOWN:
       if (y + step <= 4)
         return y + step;
       break;

@@ -3,17 +3,6 @@ package com.anji.neatpacman;
 public interface Maze
 {
 
-  // defs of directions
-  static final int        ERROR                         = 0;
-
-  static final int        UP                            = 1;
-
-  static final int        DOWN                          = 2;
-
-  static final int        LEFT                          = 3;
-
-  static final int        RIGHT                         = 4;
-
   // query game state (for neural network inputs)
   GameState getPacManState();
 
@@ -23,9 +12,9 @@ public interface Maze
   void tick();
 
   // move (and thus change game state)
-  void setPacManDirection(int direction);
+  void setPacManDirection(byte direction);
 
-  void setGhostDirection(int id, int direction);
+  void setGhostDirection(int id, byte direction);
 
   boolean isGameOver();
 
