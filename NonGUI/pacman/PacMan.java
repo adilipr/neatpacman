@@ -28,6 +28,8 @@ public class PacMan extends Applet
       m_topCanvas = new TopCanvas (m_gameModel, 200, 200);
       m_bottomCanvas = new BottomCanvas (this, m_gameModel, 200, 250);
        
+      if (Thing.DRAW)
+      {
       GridBagLayout gridBag = new GridBagLayout ();
       GridBagConstraints c = new GridBagConstraints ();
       
@@ -54,6 +56,7 @@ public class PacMan extends Applet
 //      m_soundMgr = new SoundManager (this, getCodeBase ());
 //      m_soundMgr.loadSoundClips ();
       
+      }
       
    }
    
@@ -111,7 +114,17 @@ public class PacMan extends Applet
         System.out.println("game over: pacman lost.");
         stop();      }
             
-      m_gameUI.repaint();        m_topCanvas.repaint ();     
+      if (Thing.DRAW)
+      {
+        m_gameUI.repaint();          m_topCanvas.repaint ();
+      }
+      else
+      {
+        for (int i = 0; i < m_gameModel.m_things.length; ++i)
+        {
+          m_gameModel.m_things[i].draw(m_gameUI, null);
+        }
+      }     
 	}
    
    // Ticked when level has completed
@@ -432,10 +445,12 @@ public class PacMan extends Applet
       if (m_ticker == null)
       {
          m_ticker = new Ticker (this);
+         /*
          //@Dilip
          //used to generate distances.txt file once only
          g=new Graph();
          g.callGraphFunctions(this);
+         */
          m_ticker.start ();
       }
    }
