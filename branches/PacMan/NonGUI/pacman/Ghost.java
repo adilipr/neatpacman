@@ -43,7 +43,9 @@ public class Ghost extends Thing
    
    // Overriden to draw Ghosts
    public void draw (GameUI gameUI, Graphics g2)   {
-      if (!m_bVisible)         return;            // Ghost Head Diameter is also the Width and Height of the Ghost
+      if (!m_bVisible)         return;
+      
+      // Ghost Head Diameter is also the Width and Height of the Ghost
       int ghostHeadDiameter = gameUI.CELL_LENGTH + gameUI.WALL1 + gameUI.WALL1;
       int ghostLegHalf = ghostHeadDiameter / 2;
       int ghostLegQuarter = ghostHeadDiameter / 4;
@@ -102,7 +104,8 @@ public class Ghost extends Thing
       Polygon polygon;
       int ghostX = gameUI.m_gridInset + (int)(m_locX * gameUI.CELL_LENGTH - ghostHeadDiameter / 2.0 + gameUI.CELL_LENGTH / 2.0 + m_deltaLocX * (gameUI.CELL_LENGTH / (m_deltaMax * 2.0 - 1)));
       int ghostY = gameUI.m_gridInset + (int)(m_locY * gameUI.CELL_LENGTH - ghostHeadDiameter / 2.0 + gameUI.CELL_LENGTH / 2.0 + m_deltaLocY * (gameUI.CELL_LENGTH / (m_deltaMax * 2.0 - 1)));
-            // If Pacman just ate this Ghost, draw the point worth of      // the ghost.
+            if (Thing.DRAW)
+      {      // If Pacman just ate this Ghost, draw the point worth of      // the ghost.
       if (m_nTicks2Popup > 0)      {
          g2.setColor (Color.cyan);         g2.setFont (m_gameModel.m_pacMan.m_gameUI.m_font);
          FontMetrics fm = g2.getFontMetrics();         g2.drawString (Integer.toString (m_eatenPoints), ghostX, ghostY + fm.getAscent());         m_gameModel.m_pacMan.m_gameUI.m_bRedrawAll = true;
@@ -189,6 +192,7 @@ public class Ghost extends Thing
          g2.fillRoundRect ((int)(ghostEyeBallX + crossEyeDelta), (int)(ghostEyeBallY), (int)(ghostEyeDiameter) , (int)(ghostEyeDiameter), (int)(ghostEyeDiameter), (int)(ghostEyeDiameter));         // Right Eye Ball  
          g2.fillRoundRect ((int)(ghostEyeBallX + ghostHeadDiameter / 2.0 - crossEyeDelta), (int)(ghostEyeBallY), (int)(ghostEyeDiameter) , (int)(ghostEyeDiameter), (int)(ghostEyeDiameter), (int)(ghostEyeDiameter));
       
+      }
       }      m_boundingBox.setBounds ((int)(ghostX), (int)(ghostY), ghostHeadDiameter, ghostHeadDiameter);      m_boundingBox.grow (-ghostHeadDiameter / 4, -ghostHeadDiameter / 4);
       //m_boundingBox.setBounds ((int)(ghostX + deltaPixelX), (int)(ghostY + deltaPixelY + ghostHeight / 5), ghostHeight, ghostHeight - ghostHeight / 5);      
       // TODO: Draw bounding box for testing
