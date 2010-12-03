@@ -218,7 +218,7 @@ public class GameModel
    }
    public boolean isGameOver()
    {
-	   return m_state == STATE_GAMEOVER;
+	   return m_pacMan.isGameOver;
    }
    public int getPacmanScore()
    {

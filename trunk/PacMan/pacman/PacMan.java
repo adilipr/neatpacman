@@ -7,6 +7,13 @@ import java.lang.Math;
 
 public class PacMan extends Applet
 {
+  
+  public static final int RESULT_PACMAN_WIN = 1;
+  
+  public static final int RESULT_PACMAN_LOSE = -1;
+  
+  public static final int RESULT_DRAW = 0;
+  
    GameModel      m_gameModel;
    
   public GameModel getGameModel()
@@ -33,6 +40,15 @@ public class PacMan extends Applet
   }
 
   private int numOfGhosts;
+  
+  boolean isGameOver = false;
+  
+  private int gameResult = RESULT_DRAW;
+  
+  public int getGameResult()
+  {
+    return gameResult;
+  }
    
    public PacMan()
    {
@@ -121,6 +137,8 @@ public class PacMan extends Applet
       {
 //         m_soundMgr.stop ();//         tickLevelComplete ();
         System.out.println("game over: pacman won!");
+        gameResult = RESULT_PACMAN_WIN;
+        isGameOver = true;
         stop();      } else if (m_gameModel.m_state == GameModel.STATE_DEADPACMAN)
       {//         m_soundMgr.stop ();
          if (m_gameModel.m_nLives == 0)         {
@@ -138,6 +156,8 @@ public class PacMan extends Applet
       {
 //         tickDeadPlay ();
         System.out.println("game over: pacman lost.");
+        gameResult = RESULT_PACMAN_LOSE;
+        isGameOver = true;
         stop();      }
             
       if (guiEnabled)

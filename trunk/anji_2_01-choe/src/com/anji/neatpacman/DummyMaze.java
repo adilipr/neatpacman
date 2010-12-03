@@ -326,4 +326,11 @@ public class DummyMaze extends Debug implements Maze
     return y;
   }
 
+  @Override
+  public int getGameResult()
+  {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
 }

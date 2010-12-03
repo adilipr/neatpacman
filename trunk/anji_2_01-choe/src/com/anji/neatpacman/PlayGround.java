@@ -11,6 +11,10 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 
+import org.apache.log4j.Logger;
+
+import pacman.PacMan;
+
 import com.anji.neatpacman.ghosts.GhostsPlayer;
 import com.anji.neatpacman.player.PacmanPlayer;
 import com.anji.neatpacman.simulate.Simulator;
@@ -116,6 +120,8 @@ public class PlayGround extends Debug implements Runnable
 //    Maze maze = new DummyMaze();
     Maze maze = new Simulator();
 
+    GameState playerState = null;
+    GameState[] ghostsStates = null;
     int n = 0;
     while (n < maxTick && !maze.isGameOver())
     {
@@ -135,8 +141,8 @@ public class PlayGround extends Debug implements Runnable
         }
       }
       
-      GameState playerState = maze.getPacManState();
-      GameState[] ghostsStates = new GameState[numOfGhosts];
+      playerState = maze.getPacManState();
+      ghostsStates = new GameState[numOfGhosts];
       for (int i = 0; i < numOfGhosts; ++i)
         ghostsStates[i] = maze.getGhostState(i);
 
@@ -155,8 +161,36 @@ public class PlayGround extends Debug implements Runnable
       }
     }
 
-    player.getResults().incrementRawScore(maze.getPacManScore());
-    ghosts.getResults().incrementRawScore(maze.getGhostScore());
+    int pacManScore = maze.getPacManScore();
+    int ghostScore = maze.getGhostScore();
+    
+    int result = maze.getGameResult();
+    if (result == PacMan.RESULT_PACMAN_WIN)
+    {
+      pacManScore += 1000;
+      ghostScore -= 1000;
+    }
+    else if (result == PacMan.RESULT_PACMAN_LOSE)
+    {
+      pacManScore -= 1000;
+      ghostScore += 1000;
+    }
+    else
+    {
+      // draw
+      if (playerState != null)
+      {
+        int distSum = (int) Utils.sum(playerState.distGhosts);
+        pacManScore -= distSum;
+        ghostScore += distSum;
+      }
+    }
+    
+    player.getResults().incrementRawScore(pacManScore);
+    ghosts.getResults().incrementRawScore(ghostScore);
+    
+    Logger.getRootLogger().info("game result: " + result);
+    
     if (maze instanceof Simulator)
     {
       Simulator sim = (Simulator) maze;
