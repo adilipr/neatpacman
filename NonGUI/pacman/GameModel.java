@@ -52,7 +52,8 @@ public class GameModel
    int            m_gameSizeX;
    int            m_gameSizeY;            
    int            m_stage;                // Same as level of difficulty
-   int            m_state = STATE_INTRO;  // FSM state
+//   int            m_state = STATE_INTRO;  // FSM state
+   int            m_state = STATE_NEWGAME;  // FSM state
    int            m_pausedState;          // Save FSM state when game is paused
    Thing[]        m_things;               // Contains references to Pacman and Ghosts
    Ghost[]        m_ghosts;               // Four Ghosts
@@ -60,7 +61,7 @@ public class GameModel
    PacMan         m_pacMan;               // Controller
 //   Fruit          m_fruit;                // Wandering fruits
    int            m_highScore    = 10000; // Default highscore
-   int            m_nextFreeUp   = 10000; // Every this many points, earn another life
+//   int            m_nextFreeUp   = 10000; // Every this many points, earn another life
    int            m_doorLocX     = 13;    // Bad.. Hard code location of door
    int            m_doorLocY     = 12;    // Bad.. Hard code location of door
       
@@ -310,14 +311,15 @@ public class GameModel
    public void newGame ()
    {
       m_stage = 0;
-      m_nLives = 2;
+//      m_nLives = 2;
+      m_nLives = 0;
       m_bPlayStartClip = true;
       m_bStartClipPlayed = false;
       loadNextLevel ();
       setVisibleThings (false);
       m_currentFoodCount = 0;
       m_player.m_score = 0;
-      m_nextFreeUp = 10000;
+//      m_nextFreeUp = 10000;
    }
    
    // Initialize the gamestate for running the intro

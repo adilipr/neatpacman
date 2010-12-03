@@ -90,8 +90,9 @@ public class PacMan extends Applet
                   m_gameUI.m_bDrawGameOver = true;         m_gameUI.m_bRedrawAll = true;
          m_gameUI.repaint ();         return;               } else if (m_gameModel.m_state == GameModel.STATE_LEVELCOMPLETE)
       {
-//         m_soundMgr.stop ();         tickLevelComplete ();      
-      } else if (m_gameModel.m_state == GameModel.STATE_DEADPACMAN)
+//         m_soundMgr.stop ();//         tickLevelComplete ();
+        System.out.println("game over: pacman won!");
+        stop();      } else if (m_gameModel.m_state == GameModel.STATE_DEADPACMAN)
       {//         m_soundMgr.stop ();
          if (m_gameModel.m_nLives == 0)         {
             m_gameModel.m_state = GameModel.STATE_GAMEOVER;
@@ -106,8 +107,9 @@ public class PacMan extends Applet
          tickGamePlay ();
       } else if (m_gameModel.m_state == GameModel.STATE_DEAD_PLAY)
       {
-         tickDeadPlay ();
-      }
+//         tickDeadPlay ();
+        System.out.println("game over: pacman lost.");
+        stop();      }
             
       m_gameUI.repaint();        m_topCanvas.repaint ();     
 	}
@@ -239,13 +241,13 @@ public class PacMan extends Applet
       boolean  bFleeing = false;
       int      nCollisionCode;      
       // Check if player has earned free life
-      if (m_gameModel.m_player.m_score >= m_gameModel.m_nextFreeUp)
-      {
-//         m_soundMgr.playSound (SoundManager.SOUND_EXTRAPAC);
-         m_gameModel.m_nLives += 1;
-         m_gameModel.m_nextFreeUp += 10000;
-         m_bottomCanvas.repaint ();
-      }
+//      if (m_gameModel.m_player.m_score >= m_gameModel.m_nextFreeUp)
+//      {
+////         m_soundMgr.playSound (SoundManager.SOUND_EXTRAPAC);
+//         m_gameModel.m_nLives += 1;
+//         m_gameModel.m_nextFreeUp += 10000;
+//         m_bottomCanvas.repaint ();
+//      }
       
       // Check for collisions between Things and Pacman
       for (int i =0; i < m_gameModel.m_things.length; i++)
