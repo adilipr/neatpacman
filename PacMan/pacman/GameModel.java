@@ -125,6 +125,69 @@ public class GameModel
    {
 	   return m_gameState;
    }
+   //get player location as string
+   public String getPlayerloc()
+   {
+	   String res;
+	   res="("+Integer.toString(m_player.m_locX)+","+Integer.toString(m_player.m_locY)+")";
+	   return res;
+   }
+   public String getPlayerlastloc()
+   {
+	   return "("+Integer.toString(m_player.m_lastLocX)+","+Integer.toString(m_player.m_lastLocY)+")";
+   }
+   public String getGhostloc(int id)
+   {
+	   return "("+Integer.toString(m_ghosts[id].m_locX)+","+Integer.toString(m_ghosts[id].m_locY)+")";
+   }
+   public String getGhostlastloc(int id)
+   {
+	   return "("+Integer.toString(m_ghosts[id].m_lastLocX)+","+Integer.toString(m_ghosts[id].m_lastLocY)+")";
+   }
+   public int getPlayerX()
+   {
+	   return m_player.m_locX;
+   }
+   public int getPlayerY()
+   {
+	   return m_player.m_locY;
+   }
+   public int getGhostX(int id)
+   {
+	   return m_ghosts[id].m_locX;
+   }
+   public int getGhostY(int id)
+   {
+	   return m_ghosts[id].m_locY;
+   }
+   static public boolean hasFood(int gameState)
+   {
+	   return (gameState & GS_FOOD) !=0;
+   }
+   public boolean isGhostAffected(int id)
+   {
+	   return m_ghosts[id].isGhostFleeing();
+   }
+   public void setPacmanDirection(byte direction)
+   {
+	   m_player.m_direction = direction;
+   }
+   public void setGhostDirection(int id, byte direction)
+   {
+	   m_ghosts[id].m_direction = direction;
+   }
+   public boolean isGameOver()
+   {
+	   return m_state == STATE_GAMEOVER;
+   }
+   public int getPacmanScore()
+   {
+	   return m_player.m_score;
+   }
+   public int getGhostScore()
+   {
+	   return -1 * m_player.m_score;
+   }
    //Dilip-end
    
    // Use bitwise operations to test for gameCell contents
