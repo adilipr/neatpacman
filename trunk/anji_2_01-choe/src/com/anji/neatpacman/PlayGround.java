@@ -113,6 +113,7 @@ public class PlayGround extends Debug implements Runnable
 
   private void playTheGame(PlayerResults player, PlayerResults ghosts)
   {
+    boolean gui = Config.get().isGuiEnabled();
     int numOfGhosts = Config.get().getNumOfGhosts();
     int ms = Config.get().getMilliSecBetweenTicks();
     int maxTick = Config.get().getMaxTick();
@@ -128,7 +129,7 @@ public class PlayGround extends Debug implements Runnable
       maze.tick();
       n++;
       
-      if (ms > 0)
+      if (gui && ms > 0)
       {
         try
         {
