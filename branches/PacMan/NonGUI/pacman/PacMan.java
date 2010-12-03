@@ -27,7 +27,7 @@ public class PacMan extends Applet
       m_gameUI = new GameUI (this, m_gameModel, 409, 450);
       m_topCanvas = new TopCanvas (m_gameModel, 200, 200);
       m_bottomCanvas = new BottomCanvas (this, m_gameModel, 200, 250);
-       
+      
       if (Thing.DRAW)
       {
       GridBagLayout gridBag = new GridBagLayout ();
@@ -479,7 +479,9 @@ public class PacMan extends Applet
    public static void main (String args[])
    {
       // Create new window
-      MainFrame frame = new MainFrame ("PacMan");
+     MainFrame frame = null;
+      if (Thing.DRAW)
+        frame = new MainFrame ("PacMan");
       
       // Create PacMan instance
       PacMan pacMan = new PacMan ();
@@ -487,9 +489,12 @@ public class PacMan extends Applet
       // Initialize instance
       pacMan.init ();
       
-      frame.add ("Center", pacMan);
-      frame.pack ();
-      frame.show ();
+      if (Thing.DRAW)
+      {
+        frame.add ("Center", pacMan);
+        frame.pack ();
+        frame.show ();
+      }
       
       pacMan.start ();
    }
