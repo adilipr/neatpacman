@@ -43,7 +43,13 @@ public class Ghost extends Thing
       m_origNTicks2Exit = nTicks2Exit;
       m_nTicks2Exit = nTicks2Exit;
    }
-   
+   //@author-DILIP-start
+   //is ghost fleeing
+   public boolean isGhostFleeing()
+   {
+	   return m_nTicks2Flee > 0;
+   }
+   //DILIP-end
    // Overriden to draw Ghosts
    public void draw (GameUI gameUI, Graphics g2)   {
       if (!m_bVisible)         return;

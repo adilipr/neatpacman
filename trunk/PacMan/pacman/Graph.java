@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 //import org.apache.commons.collections 
@@ -261,9 +262,39 @@ public class Graph
 		    out.close();
 		}
 		catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("File not found\n");
+		}
+	}
+	public void writeJunctions()
+	{
+		String outputStr;
+		try 
+		{
+			FileWriter fstream = new FileWriter("junctions.txt",true);
+		    BufferedWriter out = new BufferedWriter(fstream);
+		    Set<Map.Entry<String,Node>> allEntries = mapJunctions.entrySet();
+		    for (Map.Entry<String, Node> entry : allEntries) 
+		    {
+		    	outputStr=entry.getKey();
+		    	try
+				{
+					out.write(outputStr);
+					out.write("\r\n");
+				}
+				catch (IOException e) 
+				{
+					e.printStackTrace();
+					System.out.println("IO exception\n"+e.getMessage());
+				}
+	        }
+		  //Close the output stream
+		    out.close();
+		}
+		catch (IOException e1) 
+		{
+			e1.printStackTrace();
+			System.out.println("IO exception\n"+e1.getMessage());
 		}
 	}
 	public void callGraphFunctions(PacMan pacman)
@@ -271,7 +302,8 @@ public class Graph
 		createGraph(pacman);
 		createMatrix();
 		calculateSPL();
-		writeSPLToFile();
+		//writeSPLToFile();
+		writeJunctions();
 	}
 /*	public static void main(String args[])
 	{
