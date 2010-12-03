@@ -546,4 +546,9 @@ public class Simulator implements Maze
 //		g=s.getGhostState(0);
 		
 	}
+  @Override
+  public int getGameResult()
+  {
+    return pacman.getGameResult();
+  }
 }

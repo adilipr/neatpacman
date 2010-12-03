@@ -17,6 +17,8 @@ public interface Maze
   void setGhostDirection(int id, byte direction);
 
   boolean isGameOver();
+  
+  int getGameResult();
 
   // query final scores (only used after game over, as fitness functions)
   int getPacManScore();
