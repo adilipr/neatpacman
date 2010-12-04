@@ -88,6 +88,8 @@ public class PlayGround extends Debug implements Runnable
       e.printStackTrace();
     }
 
+    Logger.getRootLogger().info("all game playings done for this generation.");
+    
     synchronized (pendDone)
     {
       synchronized (PlayGround.class)
@@ -190,7 +192,7 @@ public class PlayGround extends Debug implements Runnable
     player.getResults().incrementRawScore(pacManScore);
     ghosts.getResults().incrementRawScore(ghostScore);
     
-    Logger.getRootLogger().info("game result: " + result);
+//    Logger.getRootLogger().info("game result: " + result);
     
     if (maze instanceof Simulator)
     {
@@ -210,11 +212,12 @@ public class PlayGround extends Debug implements Runnable
     {
       synchronized (pendDone)
       {
-        if (!done)
+        while (!done)
         {
           try
           {
-            pendDone.wait();
+            Logger.getRootLogger().info("waiting for the game playings to be done ...");
+            pendDone.wait(1000 * 60);
           }
           catch (InterruptedException e)
           {
