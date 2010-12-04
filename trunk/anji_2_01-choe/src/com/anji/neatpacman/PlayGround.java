@@ -94,8 +94,11 @@ public class PlayGround extends Debug implements Runnable
     {
       synchronized (PlayGround.class)
       {
+        Logger.getRootLogger().info("setting global PlayGround to null ...");
+        // this better happen before setting done = true
         the = null;
       }
+      Logger.getRootLogger().info("setting this.done to true ...");
       done = true;
       pendDone.notifyAll();
     }
@@ -183,9 +186,13 @@ public class PlayGround extends Debug implements Runnable
       // draw
       if (playerState != null)
       {
-        int distSum = (int) Utils.sum(playerState.distGhosts);
-        pacManScore -= distSum;
-        ghostScore += distSum;
+//        int distSum = (int) Utils.sum(playerState.distGhosts);
+        int nearestGhostIdx = Utils.argmin(playerState.distGhosts);
+        double nearestGhostDist = playerState.distGhosts[nearestGhostIdx];
+        boolean inPower = playerState.isGhostAffected[nearestGhostIdx] > 0.5;
+        double dScore = nearestGhostDist * (inPower ? -1 : 1);
+        pacManScore -= dScore;
+        ghostScore += dScore;
       }
     }
     
@@ -206,17 +213,17 @@ public class PlayGround extends Debug implements Runnable
     }
   }
 
-  public void waitForDone()
+  public void waitForDone(String id)
   {
-    if (!done)
+    while (!done)
     {
       synchronized (pendDone)
       {
-        while (!done)
+        if (!done)
         {
           try
           {
-            Logger.getRootLogger().info("waiting for the game playings to be done ...");
+            Logger.getRootLogger().info(id + " waiting for the game playings to be done ...");
             pendDone.wait(1000 * 60);
           }
           catch (InterruptedException e)

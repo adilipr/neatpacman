@@ -49,5 +49,20 @@ public class Utils
     }
     return s;
   }
+
+  public static int argmin(double[] v)
+  {
+    double min = Double.POSITIVE_INFINITY;
+    int j = -1;
+    for (int i = 0; i < v.length; ++i)
+    {
+      if (min > v[i])
+      {
+        min = v[i];
+        j = i;
+      }
+    }
+    return j;
+  }
   
 }

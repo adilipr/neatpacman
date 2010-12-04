@@ -37,7 +37,7 @@ public class PacmanTournamentAsPlayer extends SimpleTournament
   protected void endTournament()
   {
     numOpponents = playGround.getGhosts().size();
-    playGround.waitForDone();
+    playGround.waitForDone("player");
   }
 
   @Override
