@@ -100,9 +100,10 @@ public class GameModel
    int         m_nTicks2GameOver = 0;
    
    // init values for ghosts    static Color[] colors = new Color[] { Color.red, Color.pink, Color.cyan, Color.orange };
-    static int[] xs = new int[] {13, 12, 13, 15};
-    static int[] ys = new int[] {11, 14, 14, 14};
-      
+    //static int[] xs = new int[] {13, 12, 13, 15};
+    //static int[] ys = new int[] {11, 14, 14, 14};
+    static int[] xs = new int[] {6, 21, 7, 20};
+    static int[] ys = new int[] {5, 5, 14, 14};  
    public GameModel (PacMan pacMan, int numOfGhosts)
    {
       super ();
@@ -118,7 +119,7 @@ public class GameModel
       
       m_ghosts = new Ghost[numOfGhosts];
       for (int i = 0; i < numOfGhosts; ++i)
-        m_ghosts[i] = new Ghost (this, Thing.GHOST, xs[i], ys[i], true, colors[i], i * 57);
+        m_ghosts[i] = new Ghost (this, Thing.GHOST, xs[i], ys[i], true, colors[i], 0 * 57);
       
 //      m_ghosts[1] = new Ghost (this, Thing.GHOST, 12, 14, false, Color.pink, 57);
 //      m_ghosts[2] = new Ghost (this, Thing.GHOST, 13, 14, true, Color.cyan, 114); 
