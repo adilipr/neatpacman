@@ -482,7 +482,7 @@ public class Ghost extends Thing
          bestDirection[2] = temp;
       }
    
-      if (m_requestedDirection != Thing.STILL)
+      if (!m_bEaten && !m_bEnteringDoor && m_requestedDirection != Thing.STILL)
       {
         int i = 0;
         while (bestDirection[i] != m_requestedDirection)
