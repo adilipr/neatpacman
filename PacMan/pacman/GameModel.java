@@ -208,12 +208,37 @@ public class GameModel
    {
 	   return m_ghosts[id].isGhostFleeing();
    }
-   public void setPacmanDirection(byte direction)
+   public void setPacmanDirection(byte[] directions)
    {
+     if (m_player.m_deltaLocX != 0 || m_player.m_deltaLocY != 0)
+       return;
+     
 //	   m_player.m_direction = direction;
-	   m_player.m_requestedDirection = direction;
+     int position = m_gameState[m_player.m_locX][m_player.m_locY];
+     for (int i = 0; i < directions.length; ++i)
+     {
+       if (canGo(position, directions[i], m_player.m_prevDirection) || i == directions.length - 1)
+       {
+    	   m_player.m_requestedDirection = directions[i];
+    	   break;
+       }
+     }
    }
-   public void setGhostDirection(int id, byte direction)
+   
+  private boolean canGo(int position, byte direction, byte prevDirection)
+  {
+    if (direction == Thing.UP && (position & GS_NORTH) == 0 && prevDirection != Thing.DOWN)
+      return true;
+    if (direction == Thing.DOWN && (position & GS_SOUTH) == 0 && prevDirection != Thing.UP)
+      return true;
+    if (direction == Thing.LEFT && (position & GS_WEST) == 0 && prevDirection != Thing.RIGHT)
+      return true;
+    if (direction == Thing.RIGHT && (position & GS_EAST) == 0 && prevDirection != Thing.LEFT)
+      return true;
+    return false;
+  }
+
+  public void setGhostDirection(int id, byte direction)
    {
 	   m_ghosts[id].m_requestedDirection = direction;
    }
@@ -391,7 +416,7 @@ public class GameModel
 //         m_nTicksPowerup = 1000 / m_pacMan.m_delay;
 //      else
 //         m_nTicksPowerup = (10000 - (m_stage - 1) * 1000) / m_pacMan.m_delay;
-      m_nTicksPowerup = 28;
+      m_nTicksPowerup = 285;
          
       // Put Things back to start location
       for (int i = 0; i < m_things.length; i++)

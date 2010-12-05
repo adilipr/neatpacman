@@ -17,6 +17,8 @@ public class Player extends Thing
    int      m_mouthDegreeDying   = 45;
    int      m_mouthArcDying      = 135;   // Used to animate Pacman dying
    
+   byte m_prevDirection = STILL;
+   
    
    // This constructor is used to place Pacman's X-location between two cells.
    Player (GameModel gameModel, byte type, int startX, int startY, boolean bMiddleX)
@@ -160,6 +162,7 @@ public class Player extends Thing
              
       // Direction change is also possible if the thing makes
       // a 180 degree turn.
+      /*
       if ((m_direction == LEFT && m_requestedDirection == RIGHT) ||
           (m_direction == RIGHT && m_requestedDirection == LEFT) ||
           (m_direction == UP && m_requestedDirection == DOWN) ||
@@ -167,6 +170,7 @@ public class Player extends Thing
       {
          m_direction = m_requestedDirection;
       }
+      */
       
       // In case Pacman is STILL and his deltaX or deltaY != 0,
       // then allow him to move that delta's direction.  
@@ -177,6 +181,9 @@ public class Player extends Thing
       else if (m_direction == STILL && m_deltaLocY != 0 &&
               (m_requestedDirection == UP || m_requestedDirection == DOWN))
          m_direction = m_requestedDirection;
+      
+      if (m_direction != STILL)
+        m_prevDirection = m_direction;
    }
    
    public void returnToStart ()

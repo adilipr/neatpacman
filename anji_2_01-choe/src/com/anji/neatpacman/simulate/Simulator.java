@@ -509,9 +509,9 @@ public class Simulator implements Maze
 	}
 
 	@Override
-	public void setPacManDirection(byte direction) 
+	public void setPacManDirection(byte[] directions) 
 	{
-		gamemodel.setPacmanDirection(direction);
+		gamemodel.setPacmanDirection(directions);
 	}
 
 	@Override

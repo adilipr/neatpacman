@@ -212,10 +212,10 @@ public class DummyMaze extends Debug implements Maze
   }
 
   @Override
-  public void setPacManDirection(byte direction)
+  public void setPacManDirection(byte[] directions)
   {
-    pacmanDirection = direction;
-    debug("pacman direction: " + direction);
+    pacmanDirection = directions[0];
+    debug("pacman direction: " + pacmanDirection);
   }
 
   @Override
