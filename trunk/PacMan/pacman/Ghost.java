@@ -406,92 +406,92 @@ public class Ghost extends Thing
       deltaX = m_locX - targetX;
       deltaY = m_locY - targetY;
       
-      if (m_requestedDirection == Thing.STILL)
+      if (Math.abs (deltaX) > Math.abs (deltaY))
       {
-        // determine by the program
-        if (Math.abs (deltaX) > Math.abs (deltaY))
-        {
-           if (deltaX > 0)
-           {
-              bestDirection[0] = LEFT;
-              bestDirection[3] = RIGHT;
-              if (deltaY > 0)
-              {
-                 bestDirection[1] = UP;
-                 bestDirection[2] = DOWN;
-              } else {
-                 bestDirection[1] = DOWN;
-                 bestDirection[2] = UP;
-              }
-           } else {
-              bestDirection[0] = RIGHT;
-              bestDirection[3] = LEFT;
-              if (deltaY > 0)
-              {
-                 bestDirection[1] = UP;
-                 bestDirection[2] = DOWN;
-              } else {
-                 bestDirection[1] = DOWN;
-                 bestDirection[2] = UP;
-              }    
-           }
-        } else {
-           if (deltaY > 0)
-           {
-              bestDirection[0] = UP;
-              bestDirection[3] = DOWN;
-              if (deltaX > 0)
-              {
-                 bestDirection[1] = LEFT;
-                 bestDirection[2] = RIGHT;
-              } else {
-                 bestDirection[1] = RIGHT;
-                 bestDirection[2] = LEFT;
-              }    
-             
-           } else {
-              bestDirection[0] = DOWN;
-              bestDirection[3] = UP;
-              if (deltaX > 0)
-              {
-                 bestDirection[1] = LEFT;
-                 bestDirection[2] = RIGHT;
-              } else {
-                 bestDirection[1] = RIGHT;
-                 bestDirection[2] = LEFT;
-              }    
-           }
-        }
-        
-        // There's a 50% chance that the ghost will try the sub-optimal direction first.
-        // This will keep the ghosts from following each other and to trap Pacman.
-        // we want deterministic behaviors ... -- yin
-  //      if (!m_bInsaneAI && m_bCanUseNextBest && Math.random () < .50)
-  //      {  
-  //         byte temp = bestDirection[0];
-  //         bestDirection[0] = bestDirection[1];
-  //         bestDirection[1] = temp;
-  //      }
-                    
-        // If the ghost is fleeing and not eaten, then reverse the array of best directions to go.
-        if (bBackoff || (m_nTicks2Flee > 0 && !m_bEaten))
-        {
-           byte temp = bestDirection[0];
-           bestDirection[0] = bestDirection[3];
-           bestDirection[3] = temp;
+         if (deltaX > 0)
+         {
+            bestDirection[0] = LEFT;
+            bestDirection[3] = RIGHT;
+            if (deltaY > 0)
+            {
+               bestDirection[1] = UP;
+               bestDirection[2] = DOWN;
+            } else {
+               bestDirection[1] = DOWN;
+               bestDirection[2] = UP;
+            }
+         } else {
+            bestDirection[0] = RIGHT;
+            bestDirection[3] = LEFT;
+            if (deltaY > 0)
+            {
+               bestDirection[1] = UP;
+               bestDirection[2] = DOWN;
+            } else {
+               bestDirection[1] = DOWN;
+               bestDirection[2] = UP;
+            }    
+         }
+      } else {
+         if (deltaY > 0)
+         {
+            bestDirection[0] = UP;
+            bestDirection[3] = DOWN;
+            if (deltaX > 0)
+            {
+               bestDirection[1] = LEFT;
+               bestDirection[2] = RIGHT;
+            } else {
+               bestDirection[1] = RIGHT;
+               bestDirection[2] = LEFT;
+            }    
            
-           temp = bestDirection[1];
-           bestDirection[1] = bestDirection[2];
-           bestDirection[2] = temp;
-        }
+         } else {
+            bestDirection[0] = DOWN;
+            bestDirection[3] = UP;
+            if (deltaX > 0)
+            {
+               bestDirection[1] = LEFT;
+               bestDirection[2] = RIGHT;
+            } else {
+               bestDirection[1] = RIGHT;
+               bestDirection[2] = LEFT;
+            }    
+         }
       }
-      else
+      
+      // There's a 50% chance that the ghost will try the sub-optimal direction first.
+      // This will keep the ghosts from following each other and to trap Pacman.
+      // we want deterministic behaviors ... -- yin
+//      if (!m_bInsaneAI && m_bCanUseNextBest && Math.random () < .50)
+//      {  
+//         byte temp = bestDirection[0];
+//         bestDirection[0] = bestDirection[1];
+//         bestDirection[1] = temp;
+//      }
+                  
+      // If the ghost is fleeing and not eaten, then reverse the array of best directions to go.
+      if (bBackoff || (m_nTicks2Flee > 0 && !m_bEaten))
       {
-        // determine by external instruction
+         byte temp = bestDirection[0];
+         bestDirection[0] = bestDirection[3];
+         bestDirection[3] = temp;
+         
+         temp = bestDirection[1];
+         bestDirection[1] = bestDirection[2];
+         bestDirection[2] = temp;
+      }
+   
+      if (m_requestedDirection != Thing.STILL)
+      {
+        int i = 0;
+        while (bestDirection[i] != m_requestedDirection)
+          ++i;
+        bestDirection[i] = bestDirection[0];
         bestDirection[0] = m_requestedDirection;
-        bestDirection[1] = m_requestedDirection;
-        bestDirection[2] = m_requestedDirection;
-        bestDirection[3] = m_requestedDirection;
+//        bestDirection[1] = m_requestedDirection;
+//        bestDirection[2] = m_requestedDirection;
+//        bestDirection[3] = m_requestedDirection;
       }
             
       for (int i = 0; i < 4; i++)
