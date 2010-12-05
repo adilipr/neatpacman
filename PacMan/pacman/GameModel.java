@@ -208,7 +208,7 @@ public class GameModel
    {
 	   return m_ghosts[id].isGhostFleeing();
    }
-   public void setPacmanDirection(byte[] directions)
+   public void setPacmanDirection(byte[] directions, boolean inDanger)
    {
      if (m_player.m_deltaLocX != 0 || m_player.m_deltaLocY != 0)
        return;
@@ -217,7 +217,7 @@ public class GameModel
      int position = m_gameState[m_player.m_locX][m_player.m_locY];
      for (int i = 0; i < directions.length; ++i)
      {
-       if (canGo(position, directions[i], m_player.m_prevDirection) || i == directions.length - 1)
+       if (canGo(position, directions[i], inDanger ? Thing.STILL : m_player.m_prevDirection))
        {
     	   m_player.m_requestedDirection = directions[i];
     	   break;

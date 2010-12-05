@@ -18,6 +18,7 @@ import com.anji.neatpacman.Config;
 import com.anji.neatpacman.GameState;
 import com.anji.neatpacman.Maze;
 import com.anji.neatpacman.Utils;
+import com.anji.tournament.PlayerStats;
 
 public class Simulator implements Maze
 {
@@ -511,7 +512,7 @@ public class Simulator implements Maze
 	@Override
 	public void setPacManDirection(byte[] directions) 
 	{
-		gamemodel.setPacmanDirection(directions);
+		gamemodel.setPacmanDirection(directions, Utils.min(pacmanGameState.distGhosts) <= 3);
 	}
 
 	@Override

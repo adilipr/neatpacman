@@ -64,5 +64,18 @@ public class Utils
     }
     return j;
   }
+
+  public static double min(double[] v)
+  {
+    double min = Double.POSITIVE_INFINITY;
+    for (int i = 0; i < v.length; ++i)
+    {
+      if (min > v[i])
+      {
+        min = v[i];
+      }
+    }
+    return min;
+  }
   
 }
