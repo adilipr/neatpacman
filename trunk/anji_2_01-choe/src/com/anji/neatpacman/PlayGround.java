@@ -155,11 +155,11 @@ public class PlayGround extends Debug implements Runnable
       // feed input to NN, and get responses
       PacmanPlayer pl = (PacmanPlayer) player.getPlayer();
       GhostsPlayer gh = (GhostsPlayer) ghosts.getPlayer();
-      byte playerMove = pl.move(playerState);
+      byte[] playerMoves = pl.move(playerState);
       byte[] ghostsMove = gh.move(ghostsStates);
 
-      maze.setPacManDirection(playerMove);
-      debug("pacman moving direction: " + playerMove);
+      maze.setPacManDirection(playerMoves);
+      debug("pacman moving directions: " + playerMoves);
       for (int i = 0; i < numOfGhosts; ++i)
       {
         maze.setGhostDirection(i, ghostsMove[i]);

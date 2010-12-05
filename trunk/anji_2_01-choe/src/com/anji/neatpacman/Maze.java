@@ -12,7 +12,7 @@ public interface Maze
   void tick();
 
   // move (and thus change game state)
-  void setPacManDirection(byte direction);
+  void setPacManDirection(byte[] directions);
 
   void setGhostDirection(int id, byte direction);
 

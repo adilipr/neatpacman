@@ -1,5 +1,7 @@
 package com.anji.neatpacman.player;
 
+import pacman.Thing;
+
 import com.anji.integration.Activator;
 import com.anji.neatpacman.GameState;
 import com.anji.neatpacman.Utils;
@@ -27,11 +29,38 @@ public class PacmanPlayer implements Player
     activator.reset();
   }
   
-  public byte move(GameState playerState)
+  public byte[] move(GameState playerState)
   {
     double[] inputs = playerState.getValues(1.0); // 1.0 is bias
     double[] outputs = activator.next(inputs);
-    return Utils.outputsToDirection(outputs);
+    
+    System.out.println();
+    System.out.println(outputs[0]);
+    System.out.println(outputs[1]);
+    System.out.println(outputs[2]);
+    System.out.println(outputs[3]);
+    System.out.println();
+    
+    byte[] dirs = new byte[] { Thing.UP, Thing.DOWN, Thing.LEFT, Thing.RIGHT };
+    
+    for (int i = 0; i < outputs.length - 1; ++i)
+    {
+      for (int j = i+1; j < outputs.length; ++j)
+      {
+        if (outputs[i] > outputs[j])
+        {
+          double tmp = outputs[i];
+          outputs[i] = outputs[j];
+          outputs[j] = tmp;
+          
+          byte tmp1 = dirs[i];
+          dirs[i] = dirs[j];
+          dirs[j] = tmp1;
+        }
+      }
+    }
+    
+    return dirs;
   }
 
 }
