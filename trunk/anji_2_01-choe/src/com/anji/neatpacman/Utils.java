@@ -1,11 +1,19 @@
 package com.anji.neatpacman;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.CharBuffer;
 import java.util.Map;
 
 import pacman.Thing;
 
 public class Utils
 {
+  
+  public static int BUF_SIZE = 4096;
   
   public static int argmax(double[] values)
   {
@@ -76,6 +84,21 @@ public class Utils
       }
     }
     return min;
+  }
+  
+  public static String readToString(String filePath) throws IOException
+  {
+    StringBuilder sb = new StringBuilder();
+    
+    BufferedReader br = new BufferedReader(new FileReader(filePath));
+    char[] buf = new char[BUF_SIZE];
+    int len = br.read(buf);
+    for (int i = 0; i < len; ++i)
+    {
+      sb.append(buf[i]);
+    }
+    
+    return sb.toString();
   }
   
 }
