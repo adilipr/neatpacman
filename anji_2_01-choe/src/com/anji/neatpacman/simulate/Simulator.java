@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.swing.JFrame;
 
 import pacman.GameModel;
+import pacman.Ghost;
 import pacman.PacMan;
 
 import com.anji.neatpacman.Config;
@@ -551,5 +552,13 @@ public class Simulator implements Maze
   public int getGameResult()
   {
     return pacman.getGameResult();
+  }
+  
+  public void setGhostUseExternalController(boolean externalController)
+  {
+    for (Ghost ghost : gamemodel.getGhosts())
+    {
+      ghost.useExternalController(externalController);
+    }
   }
 }

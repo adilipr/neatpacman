@@ -48,10 +48,12 @@ public class Replayer extends WindowAdapter
 
     int numOfGhosts = Config.get().getNumOfGhosts();
     int ms = Config.get().getMilliSecBetweenTicks();
+    boolean externalController = Config.get().getExternalControllerFlag();
 
     Simulator maze = new Simulator();
     maze.frame.addWindowListener(this);
     maze.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    maze.setGhostUseExternalController(externalController);
 
     GameState playerState = null;
     GameState[] ghostsStates = null;

@@ -33,6 +33,7 @@ public class Ghost extends Thing
    boolean  m_bInsaneAI          = false;   // No holds barred!
    
    byte m_requestedDirection = Thing.STILL;
+   boolean externalController = false;
       
    Ghost (GameModel gameModel, byte type, int startX, int startY, boolean bMiddle, Color color, int nTicks2Exit)
    {
@@ -463,12 +464,12 @@ public class Ghost extends Thing
       // There's a 50% chance that the ghost will try the sub-optimal direction first.
       // This will keep the ghosts from following each other and to trap Pacman.
       // we want deterministic behaviors ... -- yin
-//      if (!m_bInsaneAI && m_bCanUseNextBest && Math.random () < .50)
-//      {  
-//         byte temp = bestDirection[0];
-//         bestDirection[0] = bestDirection[1];
-//         bestDirection[1] = temp;
-//      }
+      if (!m_bInsaneAI && m_bCanUseNextBest && Math.random () < .50)
+      {  
+         byte temp = bestDirection[0];
+         bestDirection[0] = bestDirection[1];
+         bestDirection[1] = temp;
+      }
                   
       // If the ghost is fleeing and not eaten, then reverse the array of best directions to go.
       if (bBackoff || (m_nTicks2Flee > 0 && !m_bEaten))
@@ -482,16 +483,19 @@ public class Ghost extends Thing
          bestDirection[2] = temp;
       }
    
-      if (!m_bEaten && !m_bEnteringDoor && m_requestedDirection != Thing.STILL)
+      if (externalController)
       {
-        int i = 0;
-        while (bestDirection[i] != m_requestedDirection)
-          ++i;
-        bestDirection[i] = bestDirection[0];
-        bestDirection[0] = m_requestedDirection;
-//        bestDirection[1] = m_requestedDirection;
-//        bestDirection[2] = m_requestedDirection;
-//        bestDirection[3] = m_requestedDirection;
+        if (!m_bEaten && !m_bEnteringDoor && m_requestedDirection != Thing.STILL)
+        {
+          int i = 0;
+          while (bestDirection[i] != m_requestedDirection)
+            ++i;
+          bestDirection[i] = bestDirection[0];
+          bestDirection[0] = m_requestedDirection;
+  //        bestDirection[1] = m_requestedDirection;
+  //        bestDirection[2] = m_requestedDirection;
+  //        bestDirection[3] = m_requestedDirection;
+        }
       }
             
       for (int i = 0; i < 4; i++)
@@ -675,4 +679,15 @@ public class Ghost extends Thing
       m_nTicks2Popup = 0;
       m_bEnteringDoor = false;
    }
+   
+   public boolean hasExternalController()
+   {
+     return externalController;
+   }
+   
+   public void useExternalController(boolean use)
+   {
+     this.externalController = use;
+   }
+   
 }
