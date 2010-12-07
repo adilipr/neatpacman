@@ -34,13 +34,6 @@ public class PacmanPlayer implements Player
     double[] inputs = playerState.getValues(1.0); // 1.0 is bias
     double[] outputs = activator.next(inputs);
     
-    System.out.println();
-    System.out.println(outputs[0]);
-    System.out.println(outputs[1]);
-    System.out.println(outputs[2]);
-    System.out.println(outputs[3]);
-    System.out.println();
-    
     byte[] dirs = new byte[] { Thing.UP, Thing.DOWN, Thing.LEFT, Thing.RIGHT };
     
     for (int i = 0; i < outputs.length - 1; ++i)
