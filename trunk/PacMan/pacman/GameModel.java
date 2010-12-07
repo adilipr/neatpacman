@@ -5823,4 +5823,10 @@ public class GameModel
       m_gameState[27][30] = PAL_BEND_TOPLEFT | PAL_EDGE_BOTTOM | PAL_EDGE_RIGHT | GS_NORTH | GS_WEST;
 
    }
+
+  public Ghost[] getGhosts()
+  {
+    return m_ghosts;
+  }
+  
 }

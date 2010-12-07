@@ -33,6 +33,7 @@ public class Config
     numOfGhosts = prop.getIntProperty("neatpacman.num_of_ghosts", 1);
     isGuiEnabled = prop.getBooleanProperty("neatpacman.gui_enabled", false);
     milliSecBetweenTicks = prop.getIntProperty("neatpacman.ms_between_ticks", 0);
+    externalControllerFlag = prop.getBooleanProperty("neatpacman.ghosts_external_controller", true);
   }
 
   private int playerMaxScore;
@@ -86,19 +87,26 @@ public class Config
   {
     return numOfGhosts;
   }
-  
+
   private boolean isGuiEnabled;
-  
+
   public boolean isGuiEnabled()
   {
     return isGuiEnabled;
   }
-  
+
   private int milliSecBetweenTicks;
-  
+
   public int getMilliSecBetweenTicks()
   {
     return milliSecBetweenTicks;
+  }
+
+  private boolean externalControllerFlag;
+
+  public boolean getExternalControllerFlag()
+  {
+    return externalControllerFlag;
   }
 
 }
