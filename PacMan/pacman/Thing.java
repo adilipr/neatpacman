@@ -22,7 +22,17 @@ public class Thing
    
    int   m_locX;
    int   m_locY;
-   int   m_deltaLocX = 0;   // Delta between cells, i.e. x -> x+1
+   public int getLocX()
+  {
+    return m_locX;
+  }
+
+  public int getLocY()
+  {
+    return m_locY;
+  }
+
+  int   m_deltaLocX = 0;   // Delta between cells, i.e. x -> x+1
    int   m_deltaLocY = 0;   // Delta between cells, i.e. x -> x+1
    int   m_lastLocX;
    int   m_lastLocY;
