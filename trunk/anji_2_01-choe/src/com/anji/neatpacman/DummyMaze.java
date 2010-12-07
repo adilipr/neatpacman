@@ -67,18 +67,18 @@ public class DummyMaze extends Debug implements Maze
     double newDistPowerPill = powerPillStillThere ? Math.abs(pacmanX - 4) + Math.abs(pacmanY - 4)
         : Config.get().getInfDistance();
 
-    pacmanState.deltaDistPacMan = 0;
-    pacmanState.deltaDistGhosts[0] = newDistGhost - pacmanState.distGhosts[0];
-    pacmanState.deltaDistPowerPills[0] = newDistPowerPill - pacmanState.distPowerPills[0];
+//    pacmanState.deltaDistPacMan = 0;
+//    pacmanState.deltaDistGhosts[0] = newDistGhost - pacmanState.distGhosts[0];
+//    pacmanState.deltaDistPowerPills[0] = newDistPowerPill - pacmanState.distPowerPills[0];
 
     pacmanState.distPacMan = 0;
     pacmanState.distGhosts[0] = newDistGhost;
     pacmanState.distPowerPills[0] = newDistPowerPill;
 
-    pacmanState.xPacMan = 0;
-    pacmanState.yPacMan = 0;
-    pacmanState.xGhosts[0] = ghostX - pacmanX;
-    pacmanState.yGhosts[0] = ghostY - pacmanY;
+//    pacmanState.xPacMan = 0;
+//    pacmanState.yPacMan = 0;
+//    pacmanState.xGhosts[0] = ghostX - pacmanX;
+//    pacmanState.yGhosts[0] = ghostY - pacmanY;
     
     pacmanState.pacmanDirection = pacmanDirection;
     pacmanState.ghostsDirection[0] = ghostDirection;
@@ -110,18 +110,18 @@ public class DummyMaze extends Debug implements Maze
     double newDistPowerPill = powerPillStillThere ? Math.abs(ghostX - 4) + Math.abs(ghostY - 4)
         : Config.get().getInfDistance();
 
-    ghostState.deltaDistPacMan = newDistPacman - ghostState.distPacMan;
-    ghostState.deltaDistGhosts[0] = 0;
-    ghostState.deltaDistPowerPills[0] = newDistPowerPill - ghostState.distPowerPills[0];
+//    ghostState.deltaDistPacMan = newDistPacman - ghostState.distPacMan;
+//    ghostState.deltaDistGhosts[0] = 0;
+//    ghostState.deltaDistPowerPills[0] = newDistPowerPill - ghostState.distPowerPills[0];
 
     ghostState.distPacMan = newDistPacman;
     ghostState.distGhosts[0] = 0;
     ghostState.distPowerPills[0] = newDistPowerPill;
 
-    ghostState.xPacMan = pacmanX - ghostX;
-    ghostState.yPacMan = pacmanY - ghostY;
-    ghostState.xGhosts[0] = 0;
-    ghostState.yGhosts[0] = 0;
+//    ghostState.xPacMan = pacmanX - ghostX;
+//    ghostState.yPacMan = pacmanY - ghostY;
+//    ghostState.xGhosts[0] = 0;
+//    ghostState.yGhosts[0] = 0;
 
     pacmanState.pacmanDirection = pacmanDirection;
     pacmanState.ghostsDirection[0] = ghostDirection;

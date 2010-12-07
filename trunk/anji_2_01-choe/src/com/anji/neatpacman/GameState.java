@@ -23,27 +23,27 @@ public class GameState
 
   public double[] distGhosts;
 
-  public double[] distJunctions;
+//  public double[] distJunctions;
 
   public double[] distPowerPills;
 
   // delta distances, measuring movement
-  public double   deltaDistPacMan;
-
-  public double[] deltaDistGhosts;
-
-  public double[] deltaDistJunctions;
-
-  public double[] deltaDistPowerPills;
+//  public double   deltaDistPacMan;
+//
+//  public double[] deltaDistGhosts;
+//
+//  public double[] deltaDistJunctions;
+//
+//  public double[] deltaDistPowerPills;
 
   // relative coordinations
-  public double   xPacMan;
-
-  public double   yPacMan;
-
-  public double[] xGhosts;
-
-  public double[] yGhosts;
+//  public double   xPacMan;
+//
+//  public double   yPacMan;
+//
+//  public double[] xGhosts;
+//
+//  public double[] yGhosts;
 
   // current direction
   public double   pacmanDirection;
@@ -56,24 +56,27 @@ public class GameState
   public double[] distsNearestJunction;
 
   public double[] distsNearestDot;
-
+  
+  public double[] distsNearestEnemy;
+  
   // is a ghost affected by power pill? yes - 1.0, no - 0.0
   public double[] isGhostAffected;
 
   public GameState(int nGhosts, int nJunctions, int nPowerPills)
   {
 	    distGhosts = new double[nGhosts];
-	    distJunctions = new double[nJunctions];
+//	    distJunctions = new double[nJunctions];
 	    distPowerPills = new double[nPowerPills];
-	    deltaDistGhosts = new double[nGhosts];
-	    deltaDistJunctions = new double[nJunctions];
-	    deltaDistPowerPills = new double[nPowerPills];
-	    xGhosts = new double[nGhosts];
-	    yGhosts = new double[nGhosts];
+//	    deltaDistGhosts = new double[nGhosts];
+//	    deltaDistJunctions = new double[nJunctions];
+//	    deltaDistPowerPills = new double[nPowerPills];
+//	    xGhosts = new double[nGhosts];
+//	    yGhosts = new double[nGhosts];
 	    ghostsDirection = new double[nGhosts];
 	    distsNearestDot = new double[4];
 	    distsNearestJunction = new double[4];
 	    distsNearestWall = new double[4];
+	    distsNearestEnemy = new double[4];
 	    //distsPowerPill = new double[4];
 	    isGhostAffected = new double[nGhosts];
   }
@@ -112,21 +115,22 @@ public class GameState
     List<Double> vs = new ArrayList<Double>(256);
     vs.add(distPacMan);
     vs.addAll(asList(distGhosts));
-    vs.addAll(asList(distJunctions));
+//    vs.addAll(asList(distJunctions));
     vs.addAll(asList(distPowerPills));
-    vs.add(deltaDistPacMan);
-    vs.addAll(asList(deltaDistGhosts));
-    vs.addAll(asList(deltaDistJunctions));
-    vs.addAll(asList(deltaDistPowerPills));
-    vs.add(xPacMan);
-    vs.add(yPacMan);
-    vs.addAll(asList(xGhosts));
-    vs.addAll(asList(yGhosts));
+//    vs.add(deltaDistPacMan);
+//    vs.addAll(asList(deltaDistGhosts));
+//    vs.addAll(asList(deltaDistJunctions));
+//    vs.addAll(asList(deltaDistPowerPills));
+//    vs.add(xPacMan);
+//    vs.add(yPacMan);
+//    vs.addAll(asList(xGhosts));
+//    vs.addAll(asList(yGhosts));
     vs.add(pacmanDirection);
     vs.addAll(asList(ghostsDirection));
     vs.addAll(asList(distsNearestWall));
     vs.addAll(asList(distsNearestJunction));
     vs.addAll(asList(distsNearestDot));
+    vs.addAll(asList(distsNearestEnemy));
     vs.addAll(asList(isGhostAffected));
     return vs;
   }

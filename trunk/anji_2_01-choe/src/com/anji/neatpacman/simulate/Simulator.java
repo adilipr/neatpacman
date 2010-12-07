@@ -359,7 +359,182 @@ public class Simulator implements Maze
 			}
 		}
 		return distances;
-	}//Ghost Affected
+	}
+	
+	public double[] distNearestGhosts(int x,int y)
+	{
+		double[] distances = new double[] {1,1,1,1};
+		//UP
+		for(int j=y;j>=0;j--)
+		{
+			if(thereIsAGhost(x, j))
+			{
+				break;
+			}
+			if(!GameModel.hasNorthWall(m_gamestate[x][j]))
+			{
+		    distances[0]++;
+			}
+			else
+			{
+				distances[0] = Config.get().getInfDistance();
+				break;
+			}
+		}
+		//DOWN
+		for(int j=y;j<31;j++)
+		{
+			if(thereIsAGhost(x, j))
+			{
+				break;
+			}
+			if(!GameModel.hasSouthWall(m_gamestate[x][j]))
+			{
+			  distances[1]++;
+			}
+			else
+			{
+				distances[1] = Config.get().getInfDistance();
+				break;
+			}
+		}
+		//LEFT
+		for(int i=x;i>=0;i--)
+		{
+			if(thereIsAGhost(i, y))
+			{
+				break;
+			}
+			if(!GameModel.hasWestWall(m_gamestate[i][y]))
+			{
+				distances[2]++;
+			}
+			else
+			{
+				distances[2] = Config.get().getInfDistance();
+				break;
+			}
+			if(i==0 && y==14)
+			{
+				i = 28;
+			}
+		}
+		//RIGHT
+		for(int i=x;i<28;i++)
+		{
+			if(thereIsAGhost(i, y))
+			{
+				break;
+			}
+			if(!GameModel.hasEastWall(m_gamestate[i][y]))
+			{
+				distances[3]++;
+			}
+			else
+			{
+				distances[3] = Config.get().getInfDistance();
+				break;
+			}
+			if(i==27 && y==14)
+			{
+				i = -1;
+			}
+		}
+		return distances;
+	}
+	
+	private boolean thereIsAGhost(int x, int y)
+  {
+	  for (Ghost g : gamemodel.getGhosts())
+	  {
+	    if (g.getLocX() == x && g.getLocY() == y)
+	      return true;
+	  }
+	  return false;
+  }
+	
+	public double[] distNearestPacMan(int x,int y)
+	{
+		double[] distances = new double[] {1,1,1,1};
+		//UP
+		for(int j=y;j>=0;j--)
+		{
+			if(x == gamemodel.getPlayerX() && j == gamemodel.getPlayerY())
+			{
+				break;
+			}
+			if(!GameModel.hasNorthWall(m_gamestate[x][j]))
+			{
+		    distances[0]++;
+			}
+			else
+			{
+				distances[0] = Config.get().getInfDistance();
+				break;
+			}
+		}
+		//DOWN
+		for(int j=y;j<31;j++)
+		{
+			if(x == gamemodel.getPlayerX() && j == gamemodel.getPlayerY())
+			{
+				break;
+			}
+			if(!GameModel.hasSouthWall(m_gamestate[x][j]))
+			{
+			  distances[1]++;
+			}
+			else
+			{
+				distances[1] = Config.get().getInfDistance();
+				break;
+			}
+		}
+		//LEFT
+		for(int i=x;i>=0;i--)
+		{
+			if(i == gamemodel.getPlayerX() && y == gamemodel.getPlayerY())
+			{
+				break;
+			}
+			if(!GameModel.hasWestWall(m_gamestate[i][y]))
+			{
+				distances[2]++;
+			}
+			else
+			{
+				distances[2] = Config.get().getInfDistance();
+				break;
+			}
+			if(i==0 && y==14)
+			{
+				i = 28;
+			}
+		}
+		//RIGHT
+		for(int i=x;i<28;i++)
+		{
+			if(i == gamemodel.getPlayerX() && y == gamemodel.getPlayerY())
+			{
+				break;
+			}
+			if(!GameModel.hasEastWall(m_gamestate[i][y]))
+			{
+				distances[3]++;
+			}
+			else
+			{
+				distances[3] = Config.get().getInfDistance();
+				break;
+			}
+			if(i==27 && y==14)
+			{
+				i = -1;
+			}
+		}
+		return distances;
+	}
+  //Ghost Affected
 	public double[] GhostAffected()
 	{
 		double[] affected = new double[nGhosts];
@@ -386,15 +561,15 @@ public class Simulator implements Maze
 		{
 			locGhost=gamemodel.getGhostloc(i);
 			int newDist = Utils.mapUse(mapStrInt, locGhost, infDistance);
-			pacmanGameState.deltaDistGhosts[i] = newDist - pacmanGameState.distGhosts[i];
+//			pacmanGameState.deltaDistGhosts[i] = newDist - pacmanGameState.distGhosts[i];
       pacmanGameState.distGhosts[i] = newDist;
 		}
 		
 		//distances to junctions
-		for(int i=0;i<listJunctions.size();i++)
-		{
-			pacmanGameState.distJunctions[i]=mapStrInt.get(listJunctions.get(i));
-		}
+//		for(int i=0;i<listJunctions.size();i++)
+//		{
+//			pacmanGameState.distJunctions[i]=mapStrInt.get(listJunctions.get(i));
+//		}
 		
 		//distances to PowerPills
 		for(int i=0;i<listPowerPills.size();i++)
@@ -403,26 +578,26 @@ public class Simulator implements Maze
 		}
 		
 		//delta distances
-		pacmanGameState.deltaDistPacMan = 0;
-		for(int i=0;i<listJunctions.size();i++)
-		{
-			pacmanGameState.deltaDistJunctions[i]=mapStrInt.get(listJunctions.get(i));
-		}
-		for(int i=0;i<listPowerPills.size();i++)
-		{
-			pacmanGameState.deltaDistPowerPills[i]=mapStrInt.get(listPowerPills.get(i));
-		}
+//		pacmanGameState.deltaDistPacMan = 0;
+//		for(int i=0;i<listJunctions.size();i++)
+//		{
+//			pacmanGameState.deltaDistJunctions[i]=mapStrInt.get(listJunctions.get(i));
+//		}
+//		for(int i=0;i<listPowerPills.size();i++)
+//		{
+//			pacmanGameState.deltaDistPowerPills[i]=mapStrInt.get(listPowerPills.get(i));
+//		}
 		
 		//relative coordinations
-		pacmanGameState.xPacMan = 0;
-		pacmanGameState.yPacMan = 0;
+//		pacmanGameState.xPacMan = 0;
+//		pacmanGameState.yPacMan = 0;
 		int pacmanX = gamemodel.getPlayerX();
 		int pacmanY = gamemodel.getPlayerY();
-		for(int i=0;i<nGhosts;i++)
-		{
-			pacmanGameState.xGhosts[i] = gamemodel.getGhostX(i) - pacmanX;
-			pacmanGameState.yGhosts[i] = gamemodel.getGhostY(i) - pacmanY;
-		}
+//		for(int i=0;i<nGhosts;i++)
+//		{
+//			pacmanGameState.xGhosts[i] = gamemodel.getGhostX(i) - pacmanX;
+//			pacmanGameState.yGhosts[i] = gamemodel.getGhostY(i) - pacmanY;
+//		}
 		
 		// directions
 		pacmanGameState.pacmanDirection = gamemodel.getPacmanDirection();
@@ -435,6 +610,7 @@ public class Simulator implements Maze
 		pacmanGameState.distsNearestWall = distNearestWall(pacmanX,pacmanY);
 		pacmanGameState.distsNearestJunction = distNearestJunction(pacmanX,pacmanY);
 		pacmanGameState.distsNearestDot = distNearestDot(pacmanX,pacmanY);
+		pacmanGameState.distsNearestEnemy = distNearestGhosts(pacmanX,pacmanY);
 		pacmanGameState.isGhostAffected = GhostAffected();
 		return pacmanGameState;
 	}
@@ -449,7 +625,7 @@ public class Simulator implements Maze
 		//PacMan distance
 		String locPacman=gamemodel.getPlayerloc();
 		int newPacmanDist = mapStrInt == null ? infDistance : mapStrInt.get(locPacman);
-		ghostGameState[id].deltaDistPacMan = newPacmanDist - ghostGameState[id].distPacMan;
+//		ghostGameState[id].deltaDistPacMan = newPacmanDist - ghostGameState[id].distPacMan;
 		ghostGameState[id].distPacMan = newPacmanDist;
 		
 		//ghost distances
@@ -457,33 +633,33 @@ public class Simulator implements Maze
 		{
       int newDist = mapStrInt == null ? infDistance :
           Utils.mapUse(mapStrInt, gamemodel.getGhostloc(i), infDistance);
-      ghostGameState[id].deltaDistGhosts[i] = newDist - ghostGameState[id].distGhosts[i];
+//      ghostGameState[id].deltaDistGhosts[i] = newDist - ghostGameState[id].distGhosts[i];
       ghostGameState[id].distGhosts[i] = newDist;
 		}
 		//distances to junctions
-		for(int i=0;i<listJunctions.size();i++)
-		{
-			ghostGameState[id].distJunctions[i]=mapStrInt == null ? infDistance : mapStrInt.get(listJunctions.get(i));
-		}
+//		for(int i=0;i<listJunctions.size();i++)
+//		{
+//			ghostGameState[id].distJunctions[i]=mapStrInt == null ? infDistance : mapStrInt.get(listJunctions.get(i));
+//		}
 		//distances to power pills
 		for(int i=0;i<listPowerPills.size();i++)
 		{
 			ghostGameState[id].distPowerPills[i]=mapStrInt == null ? infDistance : mapStrInt.get(listPowerPills.get(i));
 		}
 		//delta distances
-		for(int i=0;i<listJunctions.size();i++)
-		{
-			ghostGameState[id].deltaDistJunctions[i]=mapStrInt == null ? infDistance : mapStrInt.get(listJunctions.get(i));
-		}
-		for(int i=0;i<listPowerPills.size();i++)
-		{
-			ghostGameState[id].deltaDistPowerPills[i]=mapStrInt == null ? infDistance : mapStrInt.get(listPowerPills.get(i));
-		}
+//		for(int i=0;i<listJunctions.size();i++)
+//		{
+//			ghostGameState[id].deltaDistJunctions[i]=mapStrInt == null ? infDistance : mapStrInt.get(listJunctions.get(i));
+//		}
+//		for(int i=0;i<listPowerPills.size();i++)
+//		{
+//			ghostGameState[id].deltaDistPowerPills[i]=mapStrInt == null ? infDistance : mapStrInt.get(listPowerPills.get(i));
+//		}
 		//relative coordinations
 		int ghostX = gamemodel.getGhostX(id);
 		int ghostY = gamemodel.getGhostY(id);
-		ghostGameState[id].xPacMan = gamemodel.getPlayerX() - ghostX;
-		ghostGameState[id].yPacMan = gamemodel.getPlayerY() - ghostY;
+//		ghostGameState[id].xPacMan = gamemodel.getPlayerX() - ghostX;
+//		ghostGameState[id].yPacMan = gamemodel.getPlayerY() - ghostY;
 		
 		ghostGameState[id].pacmanDirection = gamemodel.getPacmanDirection();
 		for (int i = 0; i < nGhosts; i++)
@@ -491,15 +667,16 @@ public class Simulator implements Maze
 		  ghostGameState[id].ghostsDirection[i] = gamemodel.getGhostDirection(i);
 		}
 		
-		for(int i=0;i<nGhosts;i++)
-		{
-			ghostGameState[id].xGhosts[i] = gamemodel.getGhostX(i) - ghostX;
-			ghostGameState[id].yGhosts[i] = gamemodel.getGhostY(i) - ghostY;
-		}
+//		for(int i=0;i<nGhosts;i++)
+//		{
+//			ghostGameState[id].xGhosts[i] = gamemodel.getGhostX(i) - ghostX;
+//			ghostGameState[id].yGhosts[i] = gamemodel.getGhostY(i) - ghostY;
+//		}
 		//Nearest distances
 		ghostGameState[id].distsNearestWall = distNearestWall(ghostX,ghostY);
 		ghostGameState[id].distsNearestJunction = distNearestJunction(ghostX,ghostY);
 		ghostGameState[id].distsNearestDot = distNearestDot(ghostX,ghostY);
+		ghostGameState[id].distsNearestEnemy = distNearestPacMan(ghostX,ghostY);
 		ghostGameState[id].isGhostAffected = GhostAffected();
 		return ghostGameState[id];
 	}
