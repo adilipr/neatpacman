@@ -111,7 +111,8 @@ public class Replayer extends WindowAdapter
   {
     if (args.length != 2)
     {
-      System.err.println("args: <pacman-chromosome> <ghosts-chromosome>");
+      System.err.println("(requires replay.properties in the working directory to initialize)");
+      System.err.println("args: <pacman-chromosome-file-path> <ghosts-chromosome-file-path>");
       System.exit(-1);
     }
 
