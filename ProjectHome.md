@@ -1,0 +1,1 @@
+Co-evolution of player / ghost agents for classic PacMan game, using NEAT (neural evolution with augmenting topology).
